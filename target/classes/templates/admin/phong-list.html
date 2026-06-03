@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quan ly phong | Nesta Hotel</title>
+    <link rel="stylesheet" href="/style.css">
+    <style>
+        .admin-wrapper {
+            padding: 36px 5% 60px;
+            background: #fafafa;
+        }
+
+        .admin-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+        }
+
+        .admin-header h1 {
+            color: var(--sky-dark);
+            font-size: 32px;
+        }
+
+        .admin-panel {
+            background: var(--white);
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+            padding: 24px;
+            margin-bottom: 28px;
+        }
+
+        .admin-panel h2 {
+            color: var(--sky-dark);
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+
+        .admin-grid {
+            display: grid;
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+            gap: 18px;
+        }
+
+        .admin-field {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .admin-field.full {
+            grid-column: 1 / -1;
+        }
+
+        .admin-field label {
+            color: var(--text-gray);
+            font-size: 13px;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .admin-field input,
+        .admin-field select,
+        .admin-field textarea {
+            width: 100%;
+            border: 1px solid var(--border-color);
+            border-radius: 2px;
+            background: #fcfcfc;
+            color: var(--text-dark);
+            font-family: 'Montserrat', sans-serif;
+            font-size: 14px;
+            padding: 11px 12px;
+            outline: none;
+        }
+
+        .admin-field textarea {
+            resize: vertical;
+            min-height: 78px;
+        }
+
+        .admin-field input:focus,
+        .admin-field select:focus,
+        .admin-field textarea:focus {
+            border-color: var(--sky-primary);
+            background: var(--white);
+            box-shadow: 0 0 5px rgba(52, 152, 219, 0.25);
+        }
+
+        .amenity-grid {
+            display: grid;
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+            gap: 10px 16px;
+        }
+
+        .amenity-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--text-dark);
+            font-size: 14px;
+        }
+
+        .admin-actions {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-top: 20px;
+        }
+
+        .admin-btn {
+            border-radius: 2px;
+            border: 1px solid var(--sky-primary);
+            background: var(--sky-primary);
+            color: var(--white);
+            cursor: pointer;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 13px;
+            font-weight: 600;
+            padding: 11px 18px;
+            text-decoration: none;
+            text-transform: uppercase;
+        }
+
+        .admin-btn:hover {
+            background: var(--sky-dark);
+            border-color: var(--sky-dark);
+        }
+
+        .admin-btn.outline {
+            background: var(--white);
+            color: var(--sky-primary);
+        }
+
+        .admin-btn.outline:hover {
+            background: var(--sky-primary);
+            color: var(--white);
+        }
+
+        .admin-btn.danger {
+            background: #E74C3C;
+            border-color: #E74C3C;
+        }
+
+        .admin-btn.small {
+            padding: 8px 12px;
+            font-size: 12px;
+        }
+
+        .admin-message {
+            border-radius: 2px;
+            margin-bottom: 18px;
+            padding: 12px 14px;
+            font-size: 14px;
+        }
+
+        .admin-message.success {
+            background: #EAF7EE;
+            border: 1px solid #B7E2C1;
+            color: #246B35;
+        }
+
+        .admin-message.error {
+            background: #FDEDEC;
+            border: 1px solid #F2B8B5;
+            color: #9F2F25;
+        }
+
+        .search-row {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 18px;
+        }
+
+        .search-row input {
+            flex: 1;
+            border: 1px solid var(--border-color);
+            border-radius: 2px;
+            font-family: 'Montserrat', sans-serif;
+            padding: 11px 12px;
+        }
+
+        .admin-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: var(--white);
+        }
+
+        .admin-table th,
+        .admin-table td {
+            border-bottom: 1px solid var(--border-color);
+            padding: 13px 12px;
+            text-align: left;
+            vertical-align: top;
+            font-size: 14px;
+        }
+
+        .admin-table th {
+            background: var(--sky-light);
+            color: var(--sky-dark);
+            font-size: 12px;
+            text-transform: uppercase;
+        }
+
+        .admin-table tbody tr:hover {
+            background: #fcfcfc;
+        }
+
+        .status-badge {
+            border-radius: 999px;
+            display: inline-block;
+            font-size: 12px;
+            font-weight: 600;
+            padding: 5px 10px;
+        }
+
+        .status-badge.active {
+            background: #EAF7EE;
+            color: #246B35;
+        }
+
+        .status-badge.inactive {
+            background: #F2F2F2;
+            color: #666;
+        }
+
+        .amenity-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+        }
+
+        .amenity-tag {
+            background: var(--sky-light);
+            border: 1px solid #D6EAF8;
+            border-radius: 999px;
+            color: var(--sky-dark);
+            font-size: 12px;
+            padding: 4px 8px;
+        }
+
+        .row-actions {
+            display: flex;
+            gap: 8px;
+        }
+
+        .pagination {
+            display: flex;
+            gap: 8px;
+            justify-content: flex-end;
+            margin-top: 18px;
+        }
+
+        .pagination a,
+        .pagination span {
+            border: 1px solid var(--border-color);
+            border-radius: 2px;
+            color: var(--sky-dark);
+            padding: 8px 11px;
+            text-decoration: none;
+        }
+
+        .pagination .active {
+            background: var(--sky-primary);
+            border-color: var(--sky-primary);
+            color: var(--white);
+        }
+
+        @media (max-width: 900px) {
+            .admin-grid,
+            .amenity-grid {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+        }
+
+        @media (max-width: 640px) {
+            .admin-header,
+            .search-row,
+            .row-actions {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .admin-grid,
+            .amenity-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="topbar">
+    <div class="topbar-left">
+        <span>+84 123 456 789 &nbsp; | &nbsp; info@nestahotel.com.vn</span>
+    </div>
+</div>
+
+<header>
+    <a href="/home" class="logo">
+        <img src="/logo.jpg" alt="Nesta Hotel Logo">
+    </a>
+    <nav class="nav-menu">
+        <a href="/home">Trang chu</a>
+        <a href="/admin/phong" style="color: var(--sky-primary);">Quan ly phong</a>
+    </nav>
+    <div class="header-actions">
+        <a href="/logout" class="btn btn-outline">Dang xuat</a>
+    </div>
+</header>
+
+<main class="admin-wrapper">
+    <div class="admin-header">
+        <h1>Quan ly phong</h1>
+        <a th:href="@{/admin/phong}" class="admin-btn outline">Lam moi form</a>
+    </div>
+
+    <div th:if="${success}" class="admin-message success" th:text="${success}"></div>
+    <div th:if="${error}" class="admin-message error" th:text="${error}"></div>
+
+    <section class="admin-panel">
+        <h2 th:text="${title}">Them phong</h2>
+
+        <form th:action="@{/admin/phong/save}" th:object="${phong}" method="post">
+            <input type="hidden" th:field="*{maPhong}">
+
+            <div class="admin-grid">
+                <div class="admin-field">
+                    <label>So phong</label>
+                    <input type="text" th:field="*{soPhong}" required>
+                </div>
+
+                <div class="admin-field">
+                    <label>Loai phong</label>
+                    <select name="loaiPhongId" required>
+                        <option value="">-- Chon loai phong --</option>
+                        <option th:each="lp : ${loaiPhongs}"
+                                th:value="${lp.id}"
+                                th:text="${lp.tenLoaiPhong}"
+                                th:selected="${phong.loaiPhong != null and phong.loaiPhong.id == lp.id}">
+                        </option>
+                    </select>
+                </div>
+
+                <div class="admin-field">
+                    <label>So tang</label>
+                    <input type="number" th:field="*{soTang}" min="1" required>
+                </div>
+
+                <div class="admin-field">
+                    <label>Gia moi dem</label>
+                    <input type="number" th:field="*{giaMoiDem}" min="0" step="1000" required>
+                </div>
+
+                <div class="admin-field">
+                    <label>Trang thai</label>
+                    <select th:field="*{trangThai}" required>
+                        <option value="Trong">Trong</option>
+                        <option value="Dang su dung">Dang su dung</option>
+                        <option value="Dang don dep">Dang don dep</option>
+                        <option value="Bao tri">Bao tri</option>
+                    </select>
+                </div>
+
+                <div class="admin-field">
+                    <label>Hoat dong</label>
+                    <select th:field="*{hoatDong}">
+                        <option th:value="true">Co</option>
+                        <option th:value="false">Khong</option>
+                    </select>
+                </div>
+
+                <div class="admin-field full">
+                    <label>Tien nghi phong</label>
+                    <div class="amenity-grid">
+                        <label class="amenity-item" th:each="tn : ${tienNghis}">
+                            <input type="checkbox"
+                                   name="tienNghiIds"
+                                   th:value="${tn.maTienNghi}"
+                                   th:checked="${selectedTienNghiIds.contains(tn.maTienNghi)}">
+                            <span th:text="${tn.tenTienNghi}"></span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="admin-field full">
+                    <label>Mo ta</label>
+                    <textarea th:field="*{moTa}"></textarea>
+                </div>
+            </div>
+
+            <div class="admin-actions">
+                <button type="submit" class="admin-btn">Luu phong</button>
+                <a th:href="@{/admin/phong}" class="admin-btn outline">Huy</a>
+            </div>
+        </form>
+    </section>
+
+    <section class="admin-panel">
+        <h2>Danh sach phong</h2>
+
+        <form th:action="@{/admin/phong}" method="get" class="search-row">
+            <input type="text"
+                   name="keyword"
+                   placeholder="Tim theo so phong, trang thai, loai phong"
+                   th:value="${keyword}">
+            <button type="submit" class="admin-btn outline">Tim kiem</button>
+        </form>
+
+        <table class="admin-table">
+            <thead>
+            <tr>
+                <th>Ma</th>
+                <th>So phong</th>
+                <th>Loai phong</th>
+                <th>Tang</th>
+                <th>Gia moi dem</th>
+                <th>Trang thai</th>
+                <th>Tien nghi</th>
+                <th>Hoat dong</th>
+                <th>Thao tac</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="p : ${phongPage.content}">
+                <td th:text="${p.maPhong}"></td>
+                <td th:text="${p.soPhong}"></td>
+                <td th:text="${p.loaiPhong != null ? p.loaiPhong.tenLoaiPhong : ''}"></td>
+                <td th:text="${p.soTang}"></td>
+                <td th:text="${#numbers.formatDecimal(p.giaMoiDem, 0, 'COMMA', 0, 'POINT')}"></td>
+                <td th:text="${p.trangThai}"></td>
+                <td>
+                    <div class="amenity-tags">
+                        <span class="amenity-tag"
+                              th:each="tenTienNghi : ${tienNghiTheoPhong[p.maPhong]}"
+                              th:text="${tenTienNghi}">
+                        </span>
+                    </div>
+                </td>
+                <td>
+                    <span th:if="${p.hoatDong}" class="status-badge active">Co</span>
+                    <span th:unless="${p.hoatDong}" class="status-badge inactive">Khong</span>
+                </td>
+                <td>
+                    <div class="row-actions">
+                        <a class="admin-btn small outline"
+                           th:href="@{/admin/phong/edit/{id}(id=${p.maPhong}, keyword=${keyword}, page=${currentPage}, size=${size})}">
+                            Sua
+                        </a>
+                        <form th:action="@{/admin/phong/delete/{id}(id=${p.maPhong})}"
+                              method="post"
+                              onsubmit="return confirm('Ban co chac muon xoa phong nay?')">
+                            <button type="submit" class="admin-btn small danger">Xoa</button>
+                        </form>
+                    </div>
+                </td>
+            </tr>
+            <tr th:if="${phongPage.content.size() == 0}">
+                <td colspan="9" style="text-align: center;">Khong co du lieu</td>
+            </tr>
+            </tbody>
+        </table>
+
+        <div class="pagination" th:if="${phongPage.totalPages > 1}">
+            <a th:if="${!phongPage.first}"
+               th:href="@{/admin/phong(page=${currentPage - 1}, size=${size}, keyword=${keyword})}">Truoc</a>
+
+            <span th:each="i : ${#numbers.sequence(0, phongPage.totalPages - 1)}"
+                  th:classappend="${i == currentPage} ? 'active'">
+                <a th:if="${i != currentPage}"
+                   th:href="@{/admin/phong(page=${i}, size=${size}, keyword=${keyword})}"
+                   th:text="${i + 1}"></a>
+                <span th:if="${i == currentPage}" th:text="${i + 1}"></span>
+            </span>
+
+            <a th:if="${!phongPage.last}"
+               th:href="@{/admin/phong(page=${currentPage + 1}, size=${size}, keyword=${keyword})}">Sau</a>
+        </div>
+    </section>
+</main>
+
+<footer>
+    <p>&copy; 2026 Nesta Hotel. All rights reserved.</p>
+</footer>
+</body>
+</html>
