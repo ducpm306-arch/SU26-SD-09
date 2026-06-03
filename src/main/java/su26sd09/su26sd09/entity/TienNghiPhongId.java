@@ -31,9 +31,10 @@ public class TienNghiPhongId implements Serializable {
         if (this == o) {
             return true;
         }
-        if (!(o instanceof TienNghiPhongId that)) {
+        if (!(o instanceof TienNghiPhongId)) {
             return false;
         }
+        TienNghiPhongId that = (TienNghiPhongId) o;
         return Objects.equals(phong, that.phong) && Objects.equals(tienNghi, that.tienNghi);
     }
 

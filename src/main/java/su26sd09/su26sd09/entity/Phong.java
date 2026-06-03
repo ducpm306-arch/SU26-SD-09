@@ -48,9 +48,4 @@ public class Phong {
 
     @Column(name = "ngay_cap_nhat")
     private LocalDateTime ngayCapNhat;
-
-    @Transient
-    private String maCccd;
-
-
 }

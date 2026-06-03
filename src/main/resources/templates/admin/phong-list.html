@@ -245,28 +245,6 @@
             gap: 8px;
         }
 
-        .pagination {
-            display: flex;
-            gap: 8px;
-            justify-content: flex-end;
-            margin-top: 18px;
-        }
-
-        .pagination a,
-        .pagination span {
-            border: 1px solid var(--border-color);
-            border-radius: 2px;
-            color: var(--sky-dark);
-            padding: 8px 11px;
-            text-decoration: none;
-        }
-
-        .pagination .active {
-            background: var(--sky-primary);
-            border-color: var(--sky-primary);
-            color: var(--white);
-        }
-
         @media (max-width: 900px) {
             .admin-grid,
             .amenity-grid {
@@ -422,7 +400,7 @@
             </tr>
             </thead>
             <tbody>
-            <tr th:each="p : ${phongPage.content}">
+            <tr th:each="p : ${phongs}">
                 <td th:text="${p.maPhong}"></td>
                 <td th:text="${p.soPhong}"></td>
                 <td th:text="${p.loaiPhong != null ? p.loaiPhong.tenLoaiPhong : ''}"></td>
@@ -444,7 +422,7 @@
                 <td>
                     <div class="row-actions">
                         <a class="admin-btn small outline"
-                           th:href="@{/admin/phong/edit/{id}(id=${p.maPhong}, keyword=${keyword}, page=${currentPage}, size=${size})}">
+                           th:href="@{/admin/phong/edit/{id}(id=${p.maPhong}, keyword=${keyword})}">
                             Sua
                         </a>
                         <form th:action="@{/admin/phong/delete/{id}(id=${p.maPhong})}"
@@ -455,27 +433,11 @@
                     </div>
                 </td>
             </tr>
-            <tr th:if="${phongPage.content.size() == 0}">
+            <tr th:if="${phongs.size() == 0}">
                 <td colspan="9" style="text-align: center;">Khong co du lieu</td>
             </tr>
             </tbody>
         </table>
-
-        <div class="pagination" th:if="${phongPage.totalPages > 1}">
-            <a th:if="${!phongPage.first}"
-               th:href="@{/admin/phong(page=${currentPage - 1}, size=${size}, keyword=${keyword})}">Truoc</a>
-
-            <span th:each="i : ${#numbers.sequence(0, phongPage.totalPages - 1)}"
-                  th:classappend="${i == currentPage} ? 'active'">
-                <a th:if="${i != currentPage}"
-                   th:href="@{/admin/phong(page=${i}, size=${size}, keyword=${keyword})}"
-                   th:text="${i + 1}"></a>
-                <span th:if="${i == currentPage}" th:text="${i + 1}"></span>
-            </span>
-
-            <a th:if="${!phongPage.last}"
-               th:href="@{/admin/phong(page=${currentPage + 1}, size=${size}, keyword=${keyword})}">Sau</a>
-        </div>
     </section>
 </main>
 

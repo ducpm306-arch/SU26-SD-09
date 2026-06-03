@@ -1,9 +1,6 @@
 package su26sd09.su26sd09.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -30,15 +27,13 @@ public class AdminPhongController {
     @GetMapping
     public String index(
             @RequestParam(defaultValue = "") String keyword,
-            @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "5") int size,
             Model model
     ) {
         Phong phong = new Phong();
         phong.setHoatDong(true);
         phong.setTrangThai("Trong");
 
-        loadPage(model, phong, List.of(), keyword, page, size, "Them phong");
+        loadFormAndList(model, phong, List.of(), keyword, "Them phong");
         return "admin/phong-list";
     }
 
@@ -51,8 +46,6 @@ public class AdminPhongController {
     public String edit(
             @PathVariable int id,
             @RequestParam(defaultValue = "") String keyword,
-            @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "5") int size,
             Model model,
             RedirectAttributes redirectAttributes
     ) {
@@ -63,7 +56,7 @@ public class AdminPhongController {
             return "redirect:/admin/phong";
         }
 
-        loadPage(model, phong, phongService.findTienNghiIdsByPhong(id), keyword, page, size, "Cap nhat phong");
+        loadFormAndList(model, phong, phongService.findTienNghiIdsByPhong(id), keyword, "Cap nhat phong");
         return "admin/phong-list";
     }
 
@@ -86,34 +79,27 @@ public class AdminPhongController {
         return "redirect:/admin/phong";
     }
 
-    private void loadPage(
+    private void loadFormAndList(
             Model model,
             Phong phong,
             List<Integer> selectedTienNghiIds,
             String keyword,
-            int page,
-            int size,
             String title
     ) {
-        Page<Phong> phongPage = phongService.search(
-                keyword,
-                PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "maPhong"))
-        );
+        List<Phong> phongs = phongService.search(keyword);
 
         Map<Integer, List<String>> tienNghiTheoPhong = new HashMap<>();
-        for (Phong item : phongPage.getContent()) {
+        for (Phong item : phongs) {
             tienNghiTheoPhong.put(item.getMaPhong(), phongService.findTenTienNghiByPhong(item.getMaPhong()));
         }
 
         model.addAttribute("phong", phong);
-        model.addAttribute("phongPage", phongPage);
+        model.addAttribute("phongs", phongs);
         model.addAttribute("loaiPhongs", phongService.findAllLoaiPhong());
         model.addAttribute("tienNghis", phongService.findAllTienNghi());
         model.addAttribute("selectedTienNghiIds", selectedTienNghiIds);
         model.addAttribute("tienNghiTheoPhong", tienNghiTheoPhong);
         model.addAttribute("keyword", keyword);
-        model.addAttribute("currentPage", page);
-        model.addAttribute("size", size);
         model.addAttribute("title", title);
     }
 }

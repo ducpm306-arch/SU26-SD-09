@@ -1,8 +1,6 @@
 package su26sd09.su26sd09.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import su26sd09.su26sd09.entity.LoaiPhong;
@@ -33,8 +31,8 @@ public class PhongService {
     @Autowired
     private TienNghiPhongRepository tienNghiPhongRepository;
 
-    public Page<Phong> search(String keyword, Pageable pageable) {
-        return phongRepository.search(keyword, pageable);
+    public List<Phong> search(String keyword) {
+        return phongRepository.search(keyword);
     }
 
     public Phong findById(int id) {
@@ -67,6 +65,7 @@ public class PhongService {
     public void save(Phong phong, int loaiPhongId, List<Integer> tienNghiIds) {
         LoaiPhong loaiPhong = loaiPhongRepository.findById(loaiPhongId).orElse(null);
         phong.setLoaiPhong(loaiPhong);
+        if (loaiPhong == null) throw new RuntimeException("Loai phong khong ton tai");
 
         if (phong.getMaPhong() == 0) {
             phong.setNgayTao(LocalDateTime.now());
@@ -88,7 +87,6 @@ public class PhongService {
         oldPhong.setTrangThai(phong.getTrangThai());
         oldPhong.setMoTa(phong.getMoTa());
         oldPhong.setHoatDong(phong.isHoatDong());
-        oldPhong.setMaCccd(phong.getMaCccd());
         oldPhong.setNgayCapNhat(LocalDateTime.now());
 
         Phong savedPhong = phongRepository.save(oldPhong);

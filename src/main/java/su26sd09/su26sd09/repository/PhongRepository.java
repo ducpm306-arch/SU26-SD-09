@@ -1,11 +1,11 @@
 package su26sd09.su26sd09.repository;
 
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import su26sd09.su26sd09.entity.Phong;
+
+import java.util.List;
 
 public interface PhongRepository extends JpaRepository<Phong, Integer> {
 
@@ -18,6 +18,7 @@ public interface PhongRepository extends JpaRepository<Phong, Integer> {
             or lower(p.trangThai) like lower(concat('%', :keyword, '%'))
             or lower(p.loaiPhong.tenLoaiPhong) like lower(concat('%', :keyword, '%'))
         )
+        order by p.maPhong desc
     """)
-    Page<Phong> search(@Param("keyword") String keyword, Pageable pageable);
+    List<Phong> search(@Param("keyword") String keyword);
 }
