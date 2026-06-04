@@ -26,7 +26,7 @@ public class AdminPhongController {
 
     @GetMapping
     public String index(
-            @RequestParam(defaultValue = "") String keyword,
+            @RequestParam(name = "keyword", defaultValue = "") String keyword,
             Model model
     ) {
         Phong phong = new Phong();
@@ -45,7 +45,7 @@ public class AdminPhongController {
     @GetMapping("/edit/{id}")
     public String edit(
             @PathVariable int id,
-            @RequestParam(defaultValue = "") String keyword,
+            @RequestParam(name = "keyword", defaultValue = "") String keyword,
             Model model,
             RedirectAttributes redirectAttributes
     ) {
@@ -63,8 +63,8 @@ public class AdminPhongController {
     @PostMapping("/save")
     public String save(
             @ModelAttribute Phong phong,
-            @RequestParam int loaiPhongId,
-            @RequestParam(required = false) List<Integer> tienNghiIds,
+            @RequestParam(name = "loaiPhongId") int loaiPhongId,
+            @RequestParam(name = "tienNghiIds", required = false) List<Integer> tienNghiIds,
             RedirectAttributes redirectAttributes
     ) {
         phongService.save(phong, loaiPhongId, tienNghiIds);
