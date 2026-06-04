@@ -44,7 +44,7 @@ public class AdminPhongController {
 
     @GetMapping("/edit/{id}")
     public String edit(
-            @PathVariable int id,
+            @PathVariable("id") int id,
             @RequestParam(name = "keyword", defaultValue = "") String keyword,
             Model model,
             RedirectAttributes redirectAttributes
@@ -73,7 +73,7 @@ public class AdminPhongController {
     }
 
     @PostMapping("/delete/{id}")
-    public String delete(@PathVariable int id, RedirectAttributes redirectAttributes) {
+    public String delete(@PathVariable("id") int id, RedirectAttributes redirectAttributes) {
         phongService.delete(id);
         redirectAttributes.addFlashAttribute("success", "Xoa phong thanh cong");
         return "redirect:/admin/phong";
