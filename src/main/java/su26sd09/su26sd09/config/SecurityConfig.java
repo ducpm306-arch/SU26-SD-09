@@ -30,6 +30,7 @@ public class SecurityConfig {
         http.authenticationProvider(authenticationProvider())
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/Login", "/api/auth/**","/verify-email","/home/**",
+                                "/loai-phong", "/loai-phong/**",
                                 "/static/**", "/css/**", "/js/**", "/images/**",
                                 "/*.css", "/*.js", "/*.jpg", "/*.png","/Register").permitAll()
                         .anyRequest().authenticated()

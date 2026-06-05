@@ -12,6 +12,7 @@ import su26sd09.su26sd09.repository.PhongRepository;
 import su26sd09.su26sd09.repository.TienNghiPhongRepository;
 import su26sd09.su26sd09.repository.TienNghiRepository;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -41,6 +42,46 @@ public class PhongService {
 
     public List<LoaiPhong> findAllLoaiPhong() {
         return loaiPhongRepository.findAllByOrderByTenLoaiPhongAsc();
+    }
+
+    public List<LoaiPhong> searchLoaiPhong(String mucGia, Integer nguoiLon, Integer treEm) {
+        BigDecimal minGia = null;
+        BigDecimal maxGia = null;
+
+        if ("duoi1tr".equals(mucGia)) {
+            maxGia = new BigDecimal("1000000");
+        } else if ("1tr-2tr".equals(mucGia)) {
+            minGia = new BigDecimal("1000000");
+            maxGia = new BigDecimal("2000000");
+        } else if ("tren2tr".equals(mucGia)) {
+            minGia = new BigDecimal("2000000");
+        }
+
+        Integer soKhach = null;
+        if (nguoiLon != null || treEm != null) {
+            soKhach = (nguoiLon == null ? 0 : nguoiLon) + (treEm == null ? 0 : treEm);
+        }
+
+        return loaiPhongRepository.searchLoaiPhong(minGia, maxGia, soKhach);
+    }
+
+    public LoaiPhong findLoaiPhongById(int id) {
+        return loaiPhongRepository.findById(id).orElse(null);
+    }
+
+    public List<Phong> findPhongTheoLoai(int loaiPhongId) {
+        return phongRepository.findByLoaiPhongIdAndHoatDongTrueOrderBySoPhongAsc(loaiPhongId);
+    }
+
+    public long countPhongTrongTheoLoai(int loaiPhongId) {
+        return phongRepository.countByLoaiPhongIdAndHoatDongTrueAndTrangThai(loaiPhongId, "Trong");
+    }
+
+    public List<LoaiPhong> findLoaiPhongKhac(int id) {
+        return loaiPhongRepository.findAllByOrderByTenLoaiPhongAsc()
+                .stream()
+                .filter(loaiPhong -> loaiPhong.getId() != id)
+                .toList();
     }
 
     public List<TienNghi> findAllTienNghi() {

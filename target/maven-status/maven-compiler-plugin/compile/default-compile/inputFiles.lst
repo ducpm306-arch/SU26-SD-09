@@ -2,6 +2,7 @@ D:\SU26-SD-09-master\src\main\java\su26sd09\su26sd09\BCryptPassword.java
 D:\SU26-SD-09-master\src\main\java\su26sd09\su26sd09\config\SecurityConfig.java
 D:\SU26-SD-09-master\src\main\java\su26sd09\su26sd09\controller\AdminPhongController.java
 D:\SU26-SD-09-master\src\main\java\su26sd09\su26sd09\controller\Home.java
+D:\SU26-SD-09-master\src\main\java\su26sd09\su26sd09\controller\LoaiPhongController.java
 D:\SU26-SD-09-master\src\main\java\su26sd09\su26sd09\controller\LoginController.java
 D:\SU26-SD-09-master\src\main\java\su26sd09\su26sd09\controller\LogoutController.java
 D:\SU26-SD-09-master\src\main\java\su26sd09\su26sd09\controller\RegisterController.java
