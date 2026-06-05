@@ -340,36 +340,6 @@
             line-height: 1.5;
         }
 
-        /* Danh sách loại phòng khác */
-        .other-types {
-            margin-top: 24px;
-            background: var(--white);
-            border: 1px solid var(--border-color);
-            border-radius: 8px;
-            overflow: hidden;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.04);
-        }
-        .other-types-header {
-            padding: 16px 20px;
-            background: var(--sky-light);
-            font-family: 'Georgia', serif;
-            font-size: 15px;
-            color: var(--sky-primary);
-            font-weight: 700;
-        }
-        .other-type-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 12px 20px;
-            border-top: 1px solid var(--border-color);
-            text-decoration: none;
-            transition: background 0.2s;
-        }
-        .other-type-item:hover { background: #f8fbff; }
-        .other-type-item span:first-child { font-size: 14px; color: var(--text-dark); }
-        .other-type-item span:last-child { font-size: 13px; color: var(--sky-primary); font-weight: 600; }
-
         /* Responsive */
         @media (max-width: 1024px) {
             .detail-layout { flex-direction: column; }
@@ -576,23 +546,6 @@
                     Miễn phí huỷ trước 48 giờ. Giá đã bao gồm thuế.
                 </p>
             </form>
-        </div>
-
-        <!-- Loại phòng khác -->
-        <div class="other-types">
-            <div class="other-types-header">
-                <i class="fa-solid fa-door-open" style="margin-right:8px;"></i>Loại Phòng Khác
-            </div>
-            <div th:each="lp : ${cacLoaiPhongKhac}">
-                <a th:href="@{'/loai-phong/' + ${lp.id}}" class="other-type-item">
-                    <span th:text="${lp.tenLoaiPhong}">Superior</span>
-                    <span th:text="'Từ ' + ${#numbers.formatDecimal(lp.giaCoBan, 0, 'COMMA', 0, 'POINT')} + ' VNĐ'">Từ 800.000 VNĐ</span>
-                </a>
-            </div>
-            <div class="other-type-item" th:if="${cacLoaiPhongKhac == null or cacLoaiPhongKhac.isEmpty()}">
-                <span>Chưa có loại phòng khác</span>
-                <span></span>
-            </div>
         </div>
     </aside>
 
