@@ -16,6 +16,7 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 @Service
 public class PhongService {
@@ -38,6 +39,14 @@ public class PhongService {
 
     public Phong findById(int id) {
         return phongRepository.findById(id).orElse(null);
+    }
+
+    public Phong findPhongById(int id) {
+        return phongRepository.findById(id).orElse(null);
+    }
+
+    public List<Phong> findAllPhong() {
+        return phongRepository.findByHoatDongTrueOrderBySoPhongAsc();
     }
 
     public List<LoaiPhong> findAllLoaiPhong() {
@@ -69,6 +78,29 @@ public class PhongService {
         return loaiPhongRepository.findById(id).orElse(null);
     }
 
+    public List<LoaiPhong> searchLoaiPhongAdmin(String keyword) {
+        List<LoaiPhong> loaiPhongs = loaiPhongRepository.findAllByOrderByTenLoaiPhongAsc();
+        if (keyword == null || keyword.isBlank()) {
+            return loaiPhongs;
+        }
+
+        String q = keyword.toLowerCase(Locale.ROOT);
+        return loaiPhongs.stream()
+                .filter(lp -> contains(lp.getTenLoaiPhong(), q)
+                        || contains(lp.getMota(), q)
+                        || String.valueOf(lp.getSucChuaToiDa()).contains(q)
+                        || (lp.getGiaCoBan() != null && lp.getGiaCoBan().toPlainString().contains(q)))
+                .toList();
+    }
+
+    public void saveLoaiPhong(LoaiPhong loaiPhong) {
+        loaiPhongRepository.save(loaiPhong);
+    }
+
+    public void deleteLoaiPhong(int id) {
+        loaiPhongRepository.deleteById(id);
+    }
+
     public List<Phong> findPhongTheoLoai(int loaiPhongId) {
         return phongRepository.findByLoaiPhongIdAndHoatDongTrueOrderBySoPhongAsc(loaiPhongId);
     }
@@ -86,6 +118,31 @@ public class PhongService {
 
     public List<TienNghi> findAllTienNghi() {
         return tienNghiRepository.findAllByOrderByTenTienNghiAsc();
+    }
+
+    public TienNghi findTienNghiById(int id) {
+        return tienNghiRepository.findById(id).orElse(null);
+    }
+
+    public List<TienNghi> searchTienNghiAdmin(String keyword) {
+        List<TienNghi> tienNghis = tienNghiRepository.findAllByOrderByTenTienNghiAsc();
+        if (keyword == null || keyword.isBlank()) {
+            return tienNghis;
+        }
+
+        String q = keyword.toLowerCase(Locale.ROOT);
+        return tienNghis.stream()
+                .filter(tn -> contains(tn.getTenTienNghi(), q)
+                        || (tn.getMaTienNghi() != null && String.valueOf(tn.getMaTienNghi()).contains(q)))
+                .toList();
+    }
+
+    public void saveTienNghi(TienNghi tienNghi) {
+        tienNghiRepository.save(tienNghi);
+    }
+
+    public void deleteTienNghi(int id) {
+        tienNghiRepository.deleteById(id);
     }
 
     public List<Integer> findTienNghiIdsByPhong(int maPhong) {
@@ -106,7 +163,7 @@ public class PhongService {
     public void save(Phong phong, int loaiPhongId, List<Integer> tienNghiIds) {
         LoaiPhong loaiPhong = loaiPhongRepository.findById(loaiPhongId).orElse(null);
         phong.setLoaiPhong(loaiPhong);
-        if (loaiPhong == null) throw new RuntimeException("Loai phong khong ton tai");
+        if (loaiPhong == null) throw new RuntimeException("Loại phòng không tồn tại");
 
         if (phong.getMaPhong() == 0) {
             phong.setNgayTao(LocalDateTime.now());
@@ -161,5 +218,9 @@ public class PhongService {
             phong.setNgayCapNhat(LocalDateTime.now());
             phongRepository.save(phong);
         }
+    }
+
+    private boolean contains(String value, String keyword) {
+        return value != null && value.toLowerCase(Locale.ROOT).contains(keyword);
     }
 }

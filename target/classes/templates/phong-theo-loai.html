@@ -5,10 +5,51 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title th:text="${loaiPhong != null} ? ${loaiPhong.tenLoaiPhong} + ' | Nesta Hotel' : 'Chi Tiết Phòng | Nesta Hotel'">Chi Tiết Phòng | Nesta Hotel</title>
+    <title th:text="${loaiPhong != null} ? ${loaiPhong.tenLoaiPhong} + ' | Hotel' : 'Chi Tiết Phòng | Hotel'">Chi Tiết Phòng | Hotel</title>
     <link rel="stylesheet" href="/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
+        /* Dropdown menu styles */
+        .nav-menu {
+            position: relative;
+        }
+        .nav-item {
+            position: relative;
+            display: inline-block;
+        }
+        .dropdown-menu {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background: white;
+            min-width: 220px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+            border-radius: 4px;
+            padding: 8px 0;
+            z-index: 1000;
+            margin-top: 5px;
+        }
+        .nav-item:hover .dropdown-menu {
+            display: block;
+        }
+        .dropdown-menu a {
+            display: block;
+            padding: 10px 20px;
+            color: var(--text-dark);
+            text-decoration: none;
+            font-size: 14px;
+            transition: background 0.2s, color 0.2s;
+        }
+        .dropdown-menu a:hover {
+            background: var(--sky-light);
+            color: var(--sky-primary);
+        }
+        .dropdown-menu a i {
+            margin-right: 8px;
+            color: var(--sky-primary);
+        }
+        
         :root {
             --sky-primary: #2196F3;
             --sky-light: #E3F2FD;
@@ -70,13 +111,14 @@
         /* ===== MAIN LAYOUT ===== */
         .detail-layout {
             display: flex;
-            gap: 28px;
-            padding: 40px 5%;
-            max-width: 1400px;
+            gap: 24px;
+            padding: 34px 20px 56px;
+            max-width: 980px;
             margin: 0 auto;
+            align-items: flex-start;
         }
 
-        /* ===== LEFT: PHÒNG LIST ===== */
+        /* ===== LEFT: PHONG LIST ===== */
         .phong-list-col {
             flex: 1;
             min-width: 0;
@@ -85,11 +127,11 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 22px;
+            margin-bottom: 16px;
         }
         .phong-list-header h2 {
             font-family: 'Georgia', serif;
-            font-size: 22px;
+            font-size: 20px;
             color: var(--text-dark);
         }
         .phong-count {
@@ -110,23 +152,29 @@
             background: #f8fbff;
         }
 
-        /* Phòng card (dạng hàng ngang) */
+        /* Phòng card (dang hang ngang) */
         .phong-card {
             display: flex;
             background: var(--white);
             border: 1px solid var(--border-color);
-            border-radius: 8px;
+            border-radius: 4px;
             overflow: hidden;
-            margin-bottom: 20px;
+            margin-bottom: 14px;
             box-shadow: 0 2px 12px rgba(0,0,0,0.05);
             transition: box-shadow 0.3s, transform 0.3s;
+            cursor: pointer;
+            min-height: 142px;
         }
         .phong-card:hover {
             box-shadow: 0 8px 28px rgba(33,150,243,0.12);
             transform: translateY(-3px);
         }
+        .phong-card:focus-visible {
+            outline: 3px solid rgba(33,150,243,0.28);
+            outline-offset: 3px;
+        }
         .phong-card-img {
-            width: 280px;
+            width: 210px;
             flex-shrink: 0;
             position: relative;
             overflow: hidden;
@@ -142,9 +190,9 @@
             position: absolute;
             top: 12px;
             left: 12px;
-            font-size: 11px;
+            font-size: 10px;
             font-weight: 700;
-            padding: 4px 10px;
+            padding: 3px 8px;
             border-radius: 2px;
             text-transform: uppercase;
             letter-spacing: 0.5px;
@@ -154,26 +202,27 @@
         .status-bao-tri { background: #fadbd8; color: #e74c3c; border: 1px solid #e74c3c; }
 
         .phong-card-info {
-            padding: 22px 24px;
+            padding: 16px 18px 14px;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
             flex: 1;
+            min-width: 0;
         }
         .phong-card-info h3 {
             font-family: 'Georgia', serif;
-            font-size: 20px;
+            font-size: 17px;
             color: var(--text-dark);
-            margin-bottom: 10px;
+            margin-bottom: 8px;
         }
         .phong-meta-row {
             display: flex;
-            gap: 20px;
+            gap: 14px;
             flex-wrap: wrap;
-            margin-bottom: 14px;
+            margin-bottom: 10px;
         }
         .phong-meta-row span {
-            font-size: 13px;
+            font-size: 12px;
             color: var(--text-gray);
             display: flex;
             align-items: center;
@@ -185,23 +234,34 @@
         .tien-nghi-tags {
             display: flex;
             flex-wrap: wrap;
-            gap: 8px;
-            margin-bottom: 16px;
+            gap: 6px;
+            margin-bottom: 10px;
         }
         .tag {
             background: var(--sky-light);
             color: var(--sky-primary);
-            font-size: 12px;
-            padding: 4px 10px;
-            border-radius: 20px;
+            font-size: 11px;
+            padding: 3px 8px;
+            border-radius: 12px;
             font-weight: 500;
+        }
+        .phong-description {
+            color: var(--text-gray);
+            display: -webkit-box;
+            font-size: 12px;
+            line-height: 1.45;
+            margin: 0 0 10px;
+            overflow: hidden;
+            -webkit-box-orient: vertical;
+            -webkit-line-clamp: 1;
         }
 
         .phong-card-footer {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding-top: 14px;
+            gap: 12px;
+            padding-top: 10px;
             border-top: 1px solid var(--border-color);
         }
         .phong-price {
@@ -209,17 +269,17 @@
             color: var(--text-gray);
         }
         .phong-price strong {
-            font-size: 22px;
+            font-size: 18px;
             font-weight: 700;
             color: var(--sky-primary);
         }
         .btn-dat-phong {
             display: inline-block;
-            padding: 10px 24px;
+            padding: 9px 18px;
             background: var(--sky-primary);
             color: #fff;
             border-radius: 2px;
-            font-size: 13px;
+            font-size: 12px;
             font-weight: 700;
             text-transform: uppercase;
             letter-spacing: 0.5px;
@@ -229,21 +289,40 @@
             cursor: pointer;
         }
         .btn-dat-phong:hover { background: #1565c0; }
+        .btn-save-cart {
+            background: #fff;
+            border: 1px solid var(--sky-primary);
+            color: var(--sky-primary);
+            border-radius: 2px;
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            padding: 9px 12px;
+            text-transform: uppercase;
+        }
+        .btn-save-cart:hover {
+            background: var(--sky-light);
+        }
         .btn-dat-phong:disabled, .btn-dat-phong.disabled {
             background: #bbb;
             cursor: not-allowed;
         }
+        .phong-card.is-selected {
+            border-color: var(--sky-primary);
+            box-shadow: 0 8px 28px rgba(33,150,243,0.18);
+        }
 
         /* ===== RIGHT: SIDEBAR ===== */
         .sidebar-col {
-            width: 300px;
+            width: 260px;
             flex-shrink: 0;
         }
         .sidebar-box {
             background: var(--white);
             border: 1px solid var(--border-color);
-            border-radius: 8px;
-            padding: 24px;
+            border-radius: 4px;
+            padding: 18px;
             box-shadow: 0 4px 18px rgba(0,0,0,0.06);
             position: sticky;
             top: 20px;
@@ -317,6 +396,22 @@
             border-top: 1px solid rgba(33,150,243,0.2);
             margin-top: 6px;
         }
+        .selected-room-box {
+            background: #f8fbff;
+            border: 1px solid #d6eaf8;
+            border-radius: 4px;
+            padding: 12px 14px;
+            margin-bottom: 16px;
+            color: var(--text-gray);
+            font-size: 13px;
+            line-height: 1.5;
+        }
+        .selected-room-box strong {
+            color: var(--sky-primary);
+            display: block;
+            font-size: 15px;
+            margin-bottom: 4px;
+        }
         .btn-confirm {
             width: 100%;
             padding: 13px;
@@ -350,6 +445,10 @@
         @media (max-width: 640px) {
             .phong-card { flex-direction: column; }
             .phong-card-img { width: 100%; height: 200px; }
+            .phong-card-footer {
+                align-items: flex-start;
+                flex-direction: column;
+            }
         }
 
         /* User menu */
@@ -368,7 +467,7 @@
 <!-- TOPBAR -->
 <div class="topbar">
     <div class="topbar-left">
-        <span>📞 +84 123 456 789 &nbsp;|&nbsp; ✉ info@nestahotel.com.vn</span>
+        <span>Tel: +84 123 456 789 &nbsp;|&nbsp; Email: info@hotel.local</span>
     </div>
     <div class="topbar-right">
         <a href="#">VN</a> | <a href="#">EN</a>
@@ -378,14 +477,26 @@
 <!-- HEADER -->
 <header>
     <a href="/home" class="logo">
-        <img src="/logo.jpg" alt="Nesta Hotel Logo">
+        <img src="/logo.jpg" alt="Hotel Logo">
     </a>
     <nav class="nav-menu">
         <a href="/home">Trang Chủ</a>
-        <a href="/loai-phong" style="color: var(--sky-primary);">Phòng Nghỉ</a>
-        <a href="#">Ẩm Thực</a>
-        <a href="#">Hội Nghị</a>
+        <div class="nav-item has-dropdown">
+            <a href="/phong" class="room-nav-toggle" aria-haspopup="true" aria-expanded="false">Phòng Nghỉ</a>
+            <div class="dropdown-menu">
+                <a href="/phong"><i class="fa-solid fa-bed"></i>Tất Cả Phòng</a>
+                <a href="/loai-phong" style="color: var(--sky-primary);"><i class="fa-solid fa-list"></i>Theo Loại Phòng</a>
+                <div style="border-top: 1px solid var(--border-color); margin: 8px 0;"></div>
+                <div th:each="lp : ${loaiPhongs}">
+                    <a th:href="@{'/loai-phong/' + ${lp.id}}">
+                        <i class="fa-solid fa-door-open"></i>
+                        <span th:text="${lp.tenLoaiPhong}">Phòng Deluxe</span>
+                    </a>
+                </div>
+            </div>
+        </div>
         <a href="#">Khuyến Mãi</a>
+        <a href="/gio-hang">Danh Sách Đặt Phòng</a>
     </nav>
     <div class="header-actions" sec:authorize="isAnonymous()">
         <a href="/Login" class="btn btn-outline">Đăng Nhập</a>
@@ -406,9 +517,9 @@
     <div class="breadcrumb">
         <nav>
             <a href="/home">Trang Chủ</a>
-            <span>›</span>
+            <span></span>
             <a href="/loai-phong">Phòng Nghỉ</a>
-            <span>›</span>
+            <span></span>
             <span th:text="${loaiPhong != null} ? ${loaiPhong.tenLoaiPhong} : 'Chi Tiết Loại Phòng'">Deluxe</span>
         </nav>
         <h1 th:text="${loaiPhong != null} ? ${loaiPhong.tenLoaiPhong} : 'Loại Phòng'">Phòng Deluxe</h1>
@@ -416,8 +527,8 @@
             <i class="fa-solid fa-users"></i>
             Sức chứa tối đa
             <span th:text="${loaiPhong != null} ? ${loaiPhong.SucChuaToiDa} + ' người' : '2 người'">2 người</span>
-            &nbsp;·&nbsp;
-            Từ <span th:text="${loaiPhong != null} ? ${#numbers.formatDecimal(loaiPhong.giaCoBan, 0, 'COMMA', 0, 'POINT')} + ' VNĐ/đêm' : '1.200.000 VNĐ/đêm'">1.200.000 VNĐ/đêm</span>
+            &nbsp;&nbsp;
+            Từ <span th:text="${loaiPhong != null} ? ${#numbers.formatDecimal(loaiPhong.giaCoBan, 0, 'COMMA', 0, 'POINT')} + ' VND/đêm' : '1.200.000 VND/đêm'">1.200.000 VND/đêm</span>
         </div>
     </div>
 </section>
@@ -425,7 +536,7 @@
 <!-- MAIN CONTENT -->
 <div class="detail-layout">
 
-    <!-- ===== CỘT TRÁI: DANH SÁCH PHÒNG ===== -->
+    <!-- ===== COT TRAI: DANH SACH PHONG ===== -->
     <main class="phong-list-col">
         <div class="phong-list-header">
             <h2>Các Phòng Hiện Có</h2>
@@ -434,13 +545,19 @@
             </span>
         </div>
 
-        <div class="phong-card" th:each="p : ${phongs}">
+        <div class="phong-card"
+             th:each="p : ${phongs}"
+             th:data-detail-url="@{/phong/{id}(id=${p.maPhong})}"
+             role="link"
+             tabindex="0"
+             onclick="openRoomDetail(event, this)"
+             onkeydown="openRoomDetailByKey(event, this)">
             <div class="phong-card-img">
                 <img src="https://images.unsplash.com/photo-1611892440504-42a792e24d32?auto=format&fit=crop&w=800&q=80"
                      th:alt="${p.soPhong}">
                 <span class="phong-status-badge"
                       th:classappend="${p.trangThai == 'Trong'} ? 'status-trong' : (${p.trangThai == 'Da dat'} ? 'status-da-dat' : 'status-bao-tri')"
-                      th:text="${p.trangThai}">Trống</span>
+                      th:text="${p.trangThai}">Trong</span>
             </div>
             <div class="phong-card-info">
                 <div>
@@ -448,28 +565,47 @@
                     <div class="phong-meta-row">
                         <span><i class="fa-solid fa-layer-group"></i> Tầng <span th:text="${p.soTang}">1</span></span>
                         <span><i class="fa-solid fa-users"></i> Tối đa <span th:text="${loaiPhong.SucChuaToiDa}">2</span> người</span>
-                        <span><i class="fa-solid fa-tag"></i> <span th:text="${p.trangThai}">Trống</span></span>
+                        <span><i class="fa-solid fa-tag"></i> <span th:text="${p.trangThai}">Trong</span></span>
                     </div>
-                    <!--/* Tiện nghi */-->
+                    <!--/* Tien nghi */-->
                     <div class="tien-nghi-tags" th:if="${tienNghiTheoPhong != null and tienNghiTheoPhong[p.maPhong] != null}">
                         <span class="tag" th:each="tn : ${tienNghiTheoPhong[p.maPhong]}" th:text="${tn}">WiFi</span>
                     </div>
-                    <p style="font-size:13px; color:var(--text-gray); line-height:1.6;" th:text="${p.moTa}">
+                    <p class="phong-description" th:text="${p.moTa}">
                         Phòng tiện nghi đầy đủ với view thoáng đãng và nội thất sang trọng.
                     </p>
                 </div>
                 <div class="phong-card-footer">
                     <div class="phong-price">
                         <strong th:text="${#numbers.formatDecimal(p.giaMoiDem, 0, 'COMMA', 0, 'POINT')}">1.200.000</strong>
-                        <span> VNĐ/đêm</span>
+                        <span> VND/đêm</span>
                     </div>
-                    <a th:href="${p.trangThai == 'Trong'} ? @{/dat-phong(phongId=${p.maPhong})} : '#'"
+                    <div style="display:flex; gap:8px; align-items:center; flex-wrap:wrap;">
+                    <button type="button"
                        class="btn-dat-phong"
                        th:classappend="${p.trangThai != 'Trong'} ? 'disabled' : ''"
-                       th:style="${p.trangThai != 'Trong'} ? 'pointer-events:none;' : ''"
+                       th:disabled="${p.trangThai != 'Trong'}"
+                       th:data-ma-phong="${p.maPhong}"
+                       th:data-so-phong="${p.soPhong}"
+                       th:data-tang="${p.soTang}"
+                       th:data-gia="${p.giaMoiDem}"
+                       th:data-gia-label="${#numbers.formatDecimal(p.giaMoiDem, 0, 'COMMA', 0, 'POINT')}"
+                       onclick="chonPhongNhanh(event, this)"
                        th:text="${p.trangThai == 'Trong'} ? 'Đặt Phòng' : 'Không Khả Dụng'">
                         Đặt Phòng
-                    </a>
+                    </button>
+                    <button type="button"
+                            class="btn-save-cart"
+                            th:disabled="${p.trangThai != 'Trong'}"
+                            th:data-ma-phong="${p.maPhong}"
+                            th:data-so-phong="${p.soPhong}"
+                            th:data-tang="${p.soTang}"
+                            th:data-gia="${p.giaMoiDem}"
+                            th:data-loai="${loaiPhong != null ? loaiPhong.tenLoaiPhong : ''}"
+                            onclick="luuPhongVaoGio(event, this)">
+                        Thêm Vào Danh Sách
+                    </button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -479,7 +615,7 @@
         </div>
     </main>
 
-    <!-- ===== CỘT PHẢI: SIDEBAR ===== -->
+    <!-- ===== COT PHAI: SIDEBAR ===== -->
     <aside class="sidebar-col">
 
         <!-- Booking form nhanh -->
@@ -487,8 +623,14 @@
             <h3>Đặt Phòng Nhanh</h3>
             <p class="sub">Chọn ngày và điền thông tin để đặt phòng ngay</p>
 
-            <form action="/dat-phong/quick" method="post">
+            <form action="/dat-phong/quick" method="post" id="quickBookingForm">
                 <input type="hidden" name="maLoaiPhong" th:value="${loaiPhong != null} ? ${loaiPhong.id} : 1">
+                <input type="hidden" name="maPhong" id="quick-ma-phong">
+
+                <div class="selected-room-box" id="selectedRoomBox">
+                    <strong id="selected-room-title">Chua chon phòng cu the</strong>
+                    <span id="selected-room-detail">Bấm nút Đặt Phòng ở một phòng còn trống để đưa thông tin phòng vào form này.</span>
+                </div>
 
                 <div class="sidebar-form-group">
                     <label><i class="fa-regular fa-calendar"></i> Ngày nhận phòng</label>
@@ -518,23 +660,23 @@
                     </div>
                 </div>
                 <div class="sidebar-form-group">
-                    <label>Yêu cầu thêm (tuỳ chọn)</label>
+                    <label>Yêu cầu thêm (tuy chon)</label>
                     <textarea name="yeuCauThem" placeholder="Phòng tầng cao, view đẹp..."></textarea>
                 </div>
 
-                <!-- Tóm tắt giá -->
+                <!-- Tom tat gia -->
                 <div class="summary-box" id="summaryBox">
                     <div class="summary-row">
                         <span>Giá cơ bản</span>
-                        <span th:text="${loaiPhong != null} ? ${#numbers.formatDecimal(loaiPhong.giaCoBan, 0, 'COMMA', 0, 'POINT')} + ' VNĐ' : '1.200.000 VNĐ'" id="gia-co-ban">1.200.000 VNĐ</span>
+                        <span th:text="${loaiPhong != null} ? ${#numbers.formatDecimal(loaiPhong.giaCoBan, 0, 'COMMA', 0, 'POINT')} + ' VND' : '1.200.000 VND'" id="gia-co-ban">1.200.000 VND</span>
                     </div>
                     <div class="summary-row">
                         <span>Số đêm</span>
-                        <span id="so-dem">–</span>
+                        <span id="so-dem">-</span>
                     </div>
                     <div class="summary-row">
                         <span>Tổng tạm tính</span>
-                        <span id="tong-tam-tinh">–</span>
+                        <span id="tong-tam-tinh">-</span>
                     </div>
                 </div>
 
@@ -543,7 +685,7 @@
                 </button>
                 <p class="sidebar-note">
                     <i class="fa-solid fa-shield-halved" style="color:var(--sky-primary);"></i>
-                    Miễn phí huỷ trước 48 giờ. Giá đã bao gồm thuế.
+                    Miễn phí hủy trước 48 giờ. Giá đã bao gồm thuế.
                 </p>
             </form>
         </div>
@@ -553,11 +695,12 @@
 
 <!-- FOOTER -->
 <footer>
-    <p>&copy; 2026 Nesta Hotel. All rights reserved.</p>
+    <p>&copy; 2026 Hotel. All rights reserved.</p>
 </footer>
 
+<script src="/header-dropdown.js"></script>
 <script>
-    // Tính tóm tắt giá tự động
+    // Tinh tom tat gia tu dong
     const giaCoBanEl = document.getElementById('gia-co-ban');
     const soNgayEl = document.getElementById('so-dem');
     const tongEl = document.getElementById('tong-tam-tinh');
@@ -567,7 +710,7 @@
     }
 
     function formatVND(n) {
-        return n.toLocaleString('vi-VN') + ' VNĐ';
+        return n.toLocaleString('vi-VN') + ' VND';
     }
 
     function tinhGia() {
@@ -587,6 +730,95 @@
 
     document.querySelector('input[name="ngayNhan"]').addEventListener('change', tinhGia);
     document.querySelector('input[name="ngayTra"]').addEventListener('change', tinhGia);
+
+    function readRoomCart() {
+        try {
+            return JSON.parse(localStorage.getItem('hotelRoomCart') || '[]');
+        } catch (e) {
+            return [];
+        }
+    }
+
+    function luuPhongVaoGio(event, button) {
+        event.preventDefault();
+        event.stopPropagation();
+
+        if (button.disabled) {
+            return;
+        }
+
+        const item = {
+            id: button.dataset.maPhong,
+            roomNumber: button.dataset.soPhong,
+            floor: button.dataset.tang,
+            price: Number(button.dataset.gia || 0),
+            typeName: button.dataset.loai || '',
+            image: 'https://images.unsplash.com/photo-1611892440504-42a792e24d32?auto=format&fit=crop&w=400&q=80'
+        };
+        const cart = readRoomCart();
+        const exists = cart.some(room => String(room.id) === String(item.id));
+        if (!exists) {
+            cart.push(item);
+            localStorage.setItem('hotelRoomCart', JSON.stringify(cart));
+        }
+        button.textContent = exists ? 'Đã Có' : 'Đã Thêm';
+        setTimeout(() => button.textContent = 'Thêm Vào Danh Sách', 1200);
+    }
+
+    function chonPhongNhanh(event, button) {
+        event.preventDefault();
+        event.stopPropagation();
+
+        if (button.disabled) {
+            return;
+        }
+
+        const card = button.closest('.phong-card');
+        document.querySelectorAll('.phong-card.is-selected').forEach(item => item.classList.remove('is-selected'));
+        if (card) {
+            card.classList.add('is-selected');
+        }
+
+        const maPhong = button.dataset.maPhong || '';
+        const soPhong = button.dataset.soPhong || '';
+        const tang = button.dataset.tang || '';
+        const giaLabel = button.dataset.giaLabel || '';
+
+        document.getElementById('quick-ma-phong').value = maPhong;
+        document.getElementById('selected-room-title').textContent = soPhong ? 'Phòng ' + soPhong + ' đã được chọn' : 'Đã chọn phòng';
+        document.getElementById('selected-room-detail').textContent = 'Tầng ' + tang + '  ' + giaLabel + ' VND/đêm';
+        giaCoBanEl.textContent = giaLabel + ' VND';
+        tinhGia();
+
+        document.getElementById('selectedRoomBox').scrollIntoView({ behavior: 'smooth', block: 'center' });
+        const ngayNhanInput = document.querySelector('input[name="ngayNhan"]');
+        if (ngayNhanInput) {
+            setTimeout(() => ngayNhanInput.focus(), 350);
+        }
+    }
+
+    function openRoomDetail(event, card) {
+        if (event.target.closest('a, button, input, select, textarea')) {
+            return;
+        }
+
+        const detailUrl = card.dataset.detailUrl;
+        if (detailUrl) {
+            window.location.href = detailUrl;
+        }
+    }
+
+    function openRoomDetailByKey(event, card) {
+        if (event.key !== 'Enter' && event.key !== ' ') {
+            return;
+        }
+
+        event.preventDefault();
+        const detailUrl = card.dataset.detailUrl;
+        if (detailUrl) {
+            window.location.href = detailUrl;
+        }
+    }
 
     function confirmLogout() {
         if (confirm('Bạn có chắc chắn muốn đăng xuất không?')) {

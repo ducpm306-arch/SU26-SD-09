@@ -33,7 +33,7 @@ public class AdminPhongController {
         phong.setHoatDong(true);
         phong.setTrangThai("Trong");
 
-        loadFormAndList(model, phong, List.of(), keyword, "Them phong");
+        loadFormAndList(model, phong, List.of(), keyword, "Thêm phòng");
         return "admin/phong-list";
     }
 
@@ -52,11 +52,11 @@ public class AdminPhongController {
         Phong phong = phongService.findById(id);
 
         if (phong == null) {
-            redirectAttributes.addFlashAttribute("error", "Khong tim thay phong");
+            redirectAttributes.addFlashAttribute("error", "Không tìm thấy phòng");
             return "redirect:/admin/phong";
         }
 
-        loadFormAndList(model, phong, phongService.findTienNghiIdsByPhong(id), keyword, "Cap nhat phong");
+        loadFormAndList(model, phong, phongService.findTienNghiIdsByPhong(id), keyword, "Cập nhật phòng");
         return "admin/phong-list";
     }
 
@@ -68,14 +68,14 @@ public class AdminPhongController {
             RedirectAttributes redirectAttributes
     ) {
         phongService.save(phong, loaiPhongId, tienNghiIds);
-        redirectAttributes.addFlashAttribute("success", "Luu phong thanh cong");
+        redirectAttributes.addFlashAttribute("success", "Lưu phòng thành công");
         return "redirect:/admin/phong";
     }
 
     @PostMapping("/delete/{id}")
     public String delete(@PathVariable("id") int id, RedirectAttributes redirectAttributes) {
         phongService.delete(id);
-        redirectAttributes.addFlashAttribute("success", "Xoa phong thanh cong");
+        redirectAttributes.addFlashAttribute("success", "Xóa phòng thành công");
         return "redirect:/admin/phong";
     }
 

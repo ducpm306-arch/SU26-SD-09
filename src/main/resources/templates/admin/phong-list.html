@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Quản Lý Phòng | Nesta Hotel</title>
+    <title>Quản Lý Phòng | Hotel</title>
     <link rel="stylesheet" href="/style.css">
     <style>
         .admin-wrapper {
@@ -92,7 +92,7 @@
             box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.12);
         }
 
-        /* ===== TIỆN NGHI CHECKBOX GRID ===== */
+        /* ===== TIEN NGHI CHECKBOX GRID ===== */
         .amenity-checkbox-grid {
             display: grid;
             grid-template-columns: repeat(4, minmax(0, 1fr));
@@ -303,7 +303,7 @@
         .trang-thai-badge.dang-don-dep { background: #FEF9E7; color: #9A7D0A; }
         .trang-thai-badge.bao-tri      { background: #FDEDEC; color: #9F2F25; }
 
-        /* ===== TIỆN NGHI TAGS TRONG BẢNG ===== */
+        /* ===== TIEN NGHI TAGS TRONG BANG ===== */
         .amenity-tags {
             display: flex;
             flex-wrap: wrap;
@@ -364,17 +364,24 @@
 
 <div class="topbar">
     <div class="topbar-left">
-        <span>📞 +84 123 456 789 &nbsp;|&nbsp; ✉ info@nestahotel.com.vn</span>
+        <span>Tel: +84 123 456 789 &nbsp;|&nbsp; Email: info@hotel.local</span>
     </div>
 </div>
 
 <header>
     <a href="/home" class="logo">
-        <img src="/logo.jpg" alt="Nesta Hotel Logo">
+        <img src="/logo.jpg" alt="Hotel Logo">
     </a>
     <nav class="nav-menu">
         <a href="/home">Trang Chủ</a>
-        <a href="/admin/phong" style="color: var(--sky-primary);">Quản Lý Phòng</a>
+        <a href="/admin/phong" style="color: var(--sky-primary);">Phòng</a>
+        <a href="/admin/loai-phong">Loại Phòng</a>
+        <a href="/admin/dat-phong">Đơn Đặt Phòng</a>
+        <a href="/admin/hoa-don">Hóa Đơn</a>
+        <a href="/admin/nhan-vien">Nhân Viên</a>
+        <a href="/admin/khuyen-mai">Khuyến Mãi</a>
+        <a href="/admin/danh-gia">Đánh Giá</a>
+        <a href="/admin/nguoi-dung">Người Dùng</a>
     </nav>
     <div class="header-actions">
         <a href="/logout" class="btn btn-outline">Đăng Xuất</a>
@@ -385,34 +392,35 @@
 
     <div class="admin-header">
         <h1>Quản Lý Phòng</h1>
-        <a th:href="@{/admin/phong}" class="admin-btn outline">↺ Làm Mới Form</a>
+        <a th:href="@{/admin/phong}" class="admin-btn outline"> Làm Mới Form</a>
     </div>
 
     <div th:if="${success}" class="admin-message success">
-        ✔ <span th:text="${success}"></span>
+         <span th:text="${success}"></span>
     </div>
     <div th:if="${error}" class="admin-message error">
-        ✖ <span th:text="${error}"></span>
+         <span th:text="${error}"></span>
     </div>
 
-    <!-- ===== FORM THÊM / SỬA PHÒNG ===== -->
+    <!-- ===== FORM THEM / SUA PHONG ===== -->
     <section class="admin-panel">
         <h2 th:text="${title}">Thêm Phòng</h2>
 
         <form th:action="@{/admin/phong/save}" th:object="${phong}" method="post">
+            <input type="hidden" th:if="${_csrf != null}" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
             <input type="hidden" th:field="*{maPhong}">
 
             <div class="admin-grid">
 
                 <div class="admin-field">
-                    <label>Số Phòng</label>
+                    <label>So Phòng</label>
                     <input type="text" th:field="*{soPhong}" placeholder="VD: 101" required>
                 </div>
 
                 <div class="admin-field">
                     <label>Loại Phòng</label>
                     <select name="loaiPhongId" required>
-                        <option value="">-- Chọn loại phòng --</option>
+                        <option value="">-- Chon loại phòng --</option>
                         <option th:each="lp : ${loaiPhongs}"
                                 th:value="${lp.id}"
                                 th:text="${lp.tenLoaiPhong}"
@@ -422,19 +430,19 @@
                 </div>
 
                 <div class="admin-field">
-                    <label>Số Tầng</label>
+                    <label>So Tang</label>
                     <input type="number" th:field="*{soTang}" min="1" placeholder="VD: 2" required>
                 </div>
 
                 <div class="admin-field">
-                    <label>Giá Mỗi Đêm (VNĐ)</label>
+                    <label>Giá Mỗi Đêm (VND)</label>
                     <input type="number" th:field="*{giaMoiDem}" min="0" step="1000" placeholder="VD: 500000" required>
                 </div>
 
                 <div class="admin-field">
                     <label>Trạng Thái</label>
                     <select th:field="*{trangThai}" required>
-                        <option value="Trong">Trống</option>
+                        <option value="Trong">Trong</option>
                         <option value="Dang su dung">Đang sử dụng</option>
                         <option value="Dang don dep">Đang dọn dẹp</option>
                         <option value="Bao tri">Bảo trì</option>
@@ -463,27 +471,27 @@
                 </div>
 
                 <div class="admin-field full">
-                    <label>Mô Tả</label>
+                    <label>Mo Ta</label>
                     <textarea th:field="*{moTa}" placeholder="Nhập mô tả phòng..."></textarea>
                 </div>
 
             </div>
 
             <div class="admin-actions">
-                <button type="submit" class="admin-btn">💾 Lưu Phòng</button>
-                <a th:href="@{/admin/phong}" class="admin-btn outline">✖ Hủy</a>
+                <button type="submit" class="admin-btn"> Lưu Phòng</button>
+                <a th:href="@{/admin/phong}" class="admin-btn outline"> Hủy</a>
             </div>
         </form>
     </section>
 
-    <!-- ===== DANH SÁCH PHÒNG ===== -->
+    <!-- ===== DANH SACH PHONG ===== -->
     <section class="admin-panel">
         <h2>Danh Sách Phòng</h2>
 
         <form th:action="@{/admin/phong}" method="get" class="search-row">
             <input type="text"
                    name="keyword"
-                   placeholder="🔍 Tìm theo số phòng, trạng thái, loại phòng..."
+                   placeholder=" Tìm theo số phòng, trạng thái, loại phòng..."
                    th:value="${keyword}">
             <button type="submit" class="admin-btn outline">Tìm Kiếm</button>
         </form>
@@ -491,29 +499,29 @@
         <table class="admin-table">
             <thead>
             <tr>
-                <th>Mã</th>
-                <th>Số Phòng</th>
+                <th>Ma</th>
+                <th>So Phòng</th>
                 <th>Loại Phòng</th>
-                <th>Tầng</th>
+                <th>Tang</th>
                 <th>Giá / Đêm</th>
                 <th>Trạng Thái</th>
                 <th>Tiện Nghi</th>
                 <th>Hoạt Động</th>
-                <th>Thao Tác</th>
+                <th>Thao Tac</th>
             </tr>
             </thead>
             <tbody>
             <tr th:each="p : ${phongs}">
                 <td th:text="${p.maPhong}"></td>
                 <td><strong th:text="${p.soPhong}"></strong></td>
-                <td th:text="${p.loaiPhong != null ? p.loaiPhong.tenLoaiPhong : '—'}"></td>
+                <td th:text="${p.loaiPhong != null ? p.loaiPhong.tenLoaiPhong : '-'}"></td>
                 <td th:text="${p.soTang}"></td>
-                <td th:text="${#numbers.formatDecimal(p.giaMoiDem, 0, 'COMMA', 0, 'POINT')} + ' ₫'"></td>
+                <td th:text="${#numbers.formatDecimal(p.giaMoiDem, 0, 'COMMA', 0, 'POINT')} + ' VND'"></td>
                 <td>
                     <span th:with="tt=${p.trangThai}"
                           th:classappend="${tt == 'Trong'} ? 'trong' : (${tt == 'Dang su dung'} ? 'dang-su-dung' : (${tt == 'Dang don dep'} ? 'dang-don-dep' : 'bao-tri'))"
                           class="trang-thai-badge"
-                          th:text="${tt == 'Trong'} ? 'Trống' : (${tt == 'Dang su dung'} ? 'Đang sử dụng' : (${tt == 'Dang don dep'} ? 'Đang dọn dẹp' : 'Bảo trì'))">
+                          th:text="${tt == 'Trong'} ? 'Trong' : (${tt == 'Dang su dung'} ? 'Dang su dung' : (${tt == 'Dang don dep'} ? 'Dang don dep' : 'Bao tri'))">
                     </span>
                 </td>
                 <td>
@@ -523,7 +531,7 @@
                               th:text="${tenTienNghi}">
                         </span>
                     </div>
-                    <span class="no-amenity" th:if="${tienNghiTheoPhong[p.maPhong] == null or tienNghiTheoPhong[p.maPhong].isEmpty()}">—</span>
+                    <span class="no-amenity" th:if="${tienNghiTheoPhong[p.maPhong] == null or tienNghiTheoPhong[p.maPhong].isEmpty()}">-</span>
                 </td>
                 <td>
                     <span th:if="${p.hoatDong}" class="status-badge active">Có</span>
@@ -533,12 +541,13 @@
                     <div class="row-actions">
                         <a class="admin-btn small outline"
                            th:href="@{/admin/phong/edit/{id}(id=${p.maPhong}, keyword=${keyword})}">
-                            ✏ Sửa
+                             Sửa
                         </a>
                         <form th:action="@{/admin/phong/delete/{id}(id=${p.maPhong})}"
                               method="post"
                               onsubmit="return confirm('Bạn có chắc muốn xóa phòng này?')">
-                            <button type="submit" class="admin-btn small danger">🗑 Xóa</button>
+                            <input type="hidden" th:if="${_csrf != null}" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+                            <button type="submit" class="admin-btn small danger"> Xóa</button>
                         </form>
                     </div>
                 </td>
@@ -546,7 +555,7 @@
             <tr th:if="${phongs.isEmpty()}">
                 <td colspan="9">
                     <div class="empty-state">
-                        <p>Không tìm thấy phòng nào phù hợp.</p>
+                        <p>Không tìm thấy phòng nao phù hợp.</p>
                     </div>
                 </td>
             </tr>
@@ -557,7 +566,7 @@
 </main>
 
 <footer>
-    <p>&copy; 2026 Nesta Hotel. All rights reserved.</p>
+    <p>&copy; 2026 Hotel. All rights reserved.</p>
 </footer>
 
 </body>

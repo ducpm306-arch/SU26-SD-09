@@ -5,11 +5,52 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Loại Phòng | Nesta Hotel</title>
+    <title>Loại Phòng | Hotel</title>
     <link rel="stylesheet" href="/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        /* ===== RESET & DÙNG CSS VAR TỪ style.css GỐC ===== */
+        /* ===== DROPDOWN MENU STYLES ===== */
+        .nav-menu {
+            position: relative;
+        }
+        .nav-item {
+            position: relative;
+            display: inline-block;
+        }
+        .dropdown-menu {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background: white;
+            min-width: 220px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+            border-radius: 4px;
+            padding: 8px 0;
+            z-index: 1000;
+            margin-top: 5px;
+        }
+        .nav-item:hover .dropdown-menu {
+            display: block;
+        }
+        .dropdown-menu a {
+            display: block;
+            padding: 10px 20px;
+            color: var(--text-dark);
+            text-decoration: none;
+            font-size: 14px;
+            transition: background 0.2s, color 0.2s;
+        }
+        .dropdown-menu a:hover {
+            background: var(--sky-light);
+            color: var(--sky-primary);
+        }
+        .dropdown-menu a i {
+            margin-right: 8px;
+            color: var(--sky-primary);
+        }
+        
+        /* ===== RESET & DUNG CSS VAR TU style.css GOC ===== */
         :root {
             --sky-primary: #2196F3;
             --sky-light: #E3F2FD;
@@ -57,7 +98,7 @@
 
         /* ===== CAROUSEL SECTION ===== */
         .carousel-section {
-            padding: 60px 5% 40px;
+            padding: 60px 20% 40px;
             background: var(--white);
         }
         .section-heading {
@@ -96,7 +137,7 @@
         }
 
         /* Loại phòng card */
-        .loai-phong-card {
+        .loai-phòng-card {
             min-width: calc(33.333% - 16px);
             background: var(--white);
             border-radius: 8px;
@@ -107,7 +148,7 @@
             transition: transform 0.3s ease, box-shadow 0.3s ease;
             flex-shrink: 0;
         }
-        .loai-phong-card:hover {
+        .loai-phòng-card:hover {
             transform: translateY(-6px);
             box-shadow: 0 12px 40px rgba(33, 150, 243, 0.15);
         }
@@ -122,7 +163,7 @@
             object-fit: cover;
             transition: transform 0.5s ease;
         }
-        .loai-phong-card:hover .card-img-wrap img {
+        .loai-phòng-card:hover .card-img-wrap img {
             transform: scale(1.06);
         }
         .card-badge {
@@ -213,7 +254,7 @@
             background: #1565c0;
         }
 
-        /* Carousel điều hướng */
+        /* Carousel dieu huong */
         .carousel-nav {
             display: flex;
             align-items: center;
@@ -266,7 +307,7 @@
             background: #f8fbff;
             border-top: 1px solid var(--border-color);
             border-bottom: 1px solid var(--border-color);
-            padding: 28px 5%;
+            padding: 28px 20%;
         }
         .filter-section h3 {
             font-family: 'Georgia', serif;
@@ -327,7 +368,7 @@
         }
         .btn-search:hover { background: #1565c0; }
 
-        /* ===== ALL ROOMS GRID (bên dưới) ===== */
+        /* ===== ALL ROOMS GRID (ben duoi) ===== */
         .all-rooms-section {
             padding: 50px 5% 60px;
             background: var(--white);
@@ -349,16 +390,16 @@
 
         /* Responsive */
         @media (max-width: 1024px) {
-            .loai-phong-card { min-width: calc(50% - 12px); }
+            .loai-phòng-card { min-width: calc(50% - 12px); }
             .rooms-grid { grid-template-columns: repeat(2, 1fr); }
         }
         @media (max-width: 640px) {
-            .loai-phong-card { min-width: 85%; }
+            .loai-phòng-card { min-width: 85%; }
             .rooms-grid { grid-template-columns: 1fr; }
             .page-banner-content h1 { font-size: 28px; }
         }
 
-        /* ===== USER MENU (copy từ index.html) ===== */
+        /* ===== USER MENU (copy tu index.html) ===== */
         .user-menu { display: flex; align-items: center; gap: 15px; }
         .btn-logout {
             background: transparent; border: 1px solid var(--border-color);
@@ -374,7 +415,7 @@
 <!-- TOPBAR -->
 <div class="topbar">
     <div class="topbar-left">
-        <span>📞 +84 123 456 789 &nbsp;|&nbsp; ✉ info@nestahotel.com.vn</span>
+        <span>Tel: +84 123 456 789 &nbsp;|&nbsp; Email: info@hotel.local</span>
     </div>
     <div class="topbar-right">
         <a href="#">VN</a> | <a href="#">EN</a>
@@ -384,14 +425,26 @@
 <!-- HEADER -->
 <header>
     <a href="/home" class="logo">
-        <img src="/logo.jpg" alt="Nesta Hotel Logo">
+        <img src="/logo.jpg" alt="Hotel Logo">
     </a>
     <nav class="nav-menu">
         <a href="/home">Trang Chủ</a>
-        <a href="/loai-phong" style="color: var(--sky-primary);">Phòng Nghỉ</a>
-        <a href="#">Ẩm Thực</a>
-        <a href="#">Hội Nghị</a>
+        <div class="nav-item has-dropdown">
+            <a href="/phong" class="room-nav-toggle" aria-haspopup="true" aria-expanded="false">Phòng Nghỉ</a>
+            <div class="dropdown-menu">
+                <a href="/phong"><i class="fa-solid fa-bed"></i>Tất Cả Phòng</a>
+                <a href="/loai-phong" style="color: var(--sky-primary);"><i class="fa-solid fa-list"></i>Theo Loại Phòng</a>
+                <div style="border-top: 1px solid var(--border-color); margin: 8px 0;"></div>
+                <div th:each="lp : ${loaiPhongs}">
+                    <a th:href="@{'/loai-phong/' + ${lp.id}}">
+                        <i class="fa-solid fa-door-open"></i>
+                        <span th:text="${lp.tenLoaiPhong}">Phòng Deluxe</span>
+                    </a>
+                </div>
+            </div>
+        </div>
         <a href="#">Khuyến Mãi</a>
+        <a href="/gio-hang">Danh Sách Đặt Phòng</a>
     </nav>
 
     <div class="header-actions" sec:authorize="isAnonymous()">
@@ -446,11 +499,11 @@
             </select>
         </div>
         <div class="filter-item">
-            <label>Mức giá (VNĐ/đêm)</label>
+                <label>Mức giá (VND/đêm)</label>
             <select name="mucGia">
                 <option value="" th:selected="${mucGia == null or mucGia == ''}">Tất cả mức giá</option>
                 <option value="duoi1tr" th:selected="${mucGia == 'duoi1tr'}">Dưới 1.000.000</option>
-                <option value="1tr-2tr" th:selected="${mucGia == '1tr-2tr'}">1.000.000 – 2.000.000</option>
+                <option value="1tr-2tr" th:selected="${mucGia == '1tr-2tr'}">1.000.000 - 2.000.000</option>
                 <option value="tren2tr" th:selected="${mucGia == 'tren2tr'}">Trên 2.000.000</option>
             </select>
         </div>
@@ -460,12 +513,12 @@
     </form>
 </section>
 
-<!-- CAROUSEL: DANH SÁCH LOẠI PHÒNG -->
+<!-- CAROUSEL: DANH SACH LOAI PHONG -->
 <section class="carousel-section">
     <div class="section-heading">
         <h2>Các Loại Phòng</h2>
         <span></span>
-        <p>Di chuyển trái phải để khám phá tất cả loại phòng</p>
+            <p>Di chuyển trái phải để khám phá tất cả loại phòng</p>
     </div>
 
     <div class="carousel-wrapper">
@@ -484,12 +537,12 @@
                         <span><i class="fa-solid fa-check-circle"></i> <span th:text="${soPhongTrongTheoLoai[lp.id]} + ' phòng trống'">Còn phòng</span></span>
                     </div>
                     <p class="card-desc" th:text="${lp.mota}">
-                        Không gian sang trọng với đầy đủ tiện nghi hiện đại mang đến kỳ nghỉ tuyệt vời.
+            Không gian sang trọng với đầy đủ tiện nghi hiện đại mang đến kỳ nghỉ tuyệt vời.
                     </p>
                     <div class="card-footer">
                         <div class="card-price">
                             Từ <strong th:text="${#numbers.formatDecimal(lp.giaCoBan, 0, 'COMMA', 0, 'POINT')}">1.200.000</strong>
-                            <span> VNĐ/đêm</span>
+                            <span> VND/đêm</span>
                         </div>
                         <a th:href="@{'/loai-phong/' + ${lp.id}}" class="btn-view-detail">Xem Phòng</a>
                     </div>
@@ -503,7 +556,7 @@
         </div><!-- /carousel-track -->
     </div><!-- /carousel-wrapper -->
 
-    <!-- Điều hướng carousel -->
+    <!-- Dieu huong carousel -->
     <div class="carousel-nav">
         <button class="carousel-btn" id="prevBtn" onclick="moveCarousel(-1)" disabled>
             <i class="fa-solid fa-chevron-left"></i>
@@ -517,13 +570,14 @@
 
 <!-- FOOTER -->
 <footer>
-    <p>&copy; 2026 Nesta Hotel. All rights reserved.</p>
+    <p>&copy; 2026 Hotel. All rights reserved.</p>
 </footer>
 
+<script src="/header-dropdown.js"></script>
 <script>
     // ===== CAROUSEL LOGIC =====
     const track = document.getElementById('carouselTrack');
-    const dotsContainer = document.getElementById('carouselDots');
+    const dotsCóntainer = document.getElementById('carouselDots');
     const prevBtn = document.getElementById('prevBtn');
     const nextBtn = document.getElementById('nextBtn');
 
@@ -537,7 +591,7 @@
     }
 
     function getCards() {
-        return track.querySelectorAll('.loai-phong-card');
+        return track.querySelectorAll('.loai-phòng-card');
     }
 
     function initCarousel() {
@@ -545,16 +599,16 @@
         cardsPerView = getCardsPerView();
         const totalSlides = Math.max(1, Math.ceil(cards.length / cardsPerView));
 
-        // Tạo dots
-        dotsContainer.innerHTML = '';
+        // Tao dots
+        dotsCóntainer.innerHTML = '';
         for (let i = 0; i < totalSlides; i++) {
             const dot = document.createElement('div');
             dot.className = 'dot' + (i === 0 ? ' active' : '');
             dot.onclick = () => goToSlide(i);
-            dotsContainer.appendChild(dot);
+            dotsCóntainer.appendChild(dot);
         }
 
-        // Đặt chiều rộng từng card
+        // Dat chieu rong tung card
         const gap = 24;
         const containerWidth = track.parentElement.offsetWidth;
         const cardWidth = (containerWidth - gap * (cardsPerView - 1)) / cardsPerView;
@@ -578,12 +632,12 @@
         const offset = currentIndex * (cardWidth + gap) * cardsPerView;
         track.style.transform = `translateX(-${offset}px)`;
 
-        // Cập nhật dots
+        // Cập nhat dots
         document.querySelectorAll('.dot').forEach((d, i) => {
             d.classList.toggle('active', i === currentIndex);
         });
 
-        // Cập nhật nút
+        // Cập nhat nut
         prevBtn.disabled = currentIndex === 0;
         nextBtn.disabled = currentIndex >= totalSlides - 1;
     }

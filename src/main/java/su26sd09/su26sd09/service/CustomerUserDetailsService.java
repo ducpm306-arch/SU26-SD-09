@@ -22,7 +22,7 @@ public class CustomerUserDetailsService  implements UserDetailsService {
         System.out.println("tim email " + email);
         System.out.println("ket qua" + nguoiDung);
         if(nguoiDung ==null){
-            throw new UsernameNotFoundException("Khong tim thay");
+            throw new UsernameNotFoundException("Không tìm thấy");
         }
         return new UserDetail(nguoiDung);
     }

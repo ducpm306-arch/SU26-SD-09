@@ -6,8 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
+import java.time.LocalTime;
 
 @Entity
 @NoArgsConstructor
@@ -32,8 +31,8 @@ public class Nhanvien {
     public String caLam;
 
     @Column(name = "bat_dau_lam")
-    public LocalDateTime batDauLam;
+    public LocalTime batDauLam;
 
     @Column(name = "ket_thuc_lam")
-    public LocalDateTime ketThucLam;
+    public LocalTime ketThucLam;
 }

@@ -24,5 +24,7 @@ public interface PhongRepository extends JpaRepository<Phong, Integer> {
 
     List<Phong> findByLoaiPhongIdAndHoatDongTrueOrderBySoPhongAsc(int loaiPhongId);
 
+    List<Phong> findByHoatDongTrueOrderBySoPhongAsc();
+
     long countByLoaiPhongIdAndHoatDongTrueAndTrangThai(int loaiPhongId, String trangThai);
 }

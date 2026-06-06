@@ -50,7 +50,7 @@ public class DatPhong {
     public String yeuCauThem;
 
     @Column(name = "trang_thai")
-    public Boolean trangThai;
+    public String trangThai;
 
     @Column(name = "ngay_tao")
     @DateTimeFormat(pattern = "yyyy-MM-dd hh:MM:ss")
@@ -59,12 +59,5 @@ public class DatPhong {
     @Column(name = "ngay_cap_nhat")
     @DateTimeFormat(pattern = "yyyy-MM-dd hh:MM:ss")
     public LocalDateTime ngayCapNhat;
-
-    @Column(name = "Ma_cccd")
-    public String macccd;
-
-
-
-
 
 }

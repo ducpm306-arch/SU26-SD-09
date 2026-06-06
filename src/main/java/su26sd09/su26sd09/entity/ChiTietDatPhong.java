@@ -6,6 +6,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.math.BigDecimal;
+
 @Entity
 @Setter
 @Getter
@@ -26,5 +28,7 @@ public class ChiTietDatPhong {
     @JoinColumn(name = "ma_phong")
     public Phong p;
 
+    @Column(name = "gia_moi_dem", precision = 12, scale = 2)
+    public BigDecimal giaMoiDem;
 
 }
