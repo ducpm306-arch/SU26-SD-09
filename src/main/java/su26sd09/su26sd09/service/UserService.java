@@ -49,7 +49,6 @@ public class UserService {
                 .filter(nd -> contains(nd.getHoTen(), q)
                         || contains(nd.getEmail(), q)
                         || contains(nd.getSoDienThoai(), q)
-                        || contains(nd.getMaCccd(), q)
                         || (nd.getVaiTro() != null && contains(nd.getVaiTro().getTen_VaiTro(), q)))
                 .toList();
     }
@@ -68,8 +67,7 @@ public class UserService {
         return khachHangs.stream()
                 .filter(nd -> contains(nd.getHoTen(), q)
                         || contains(nd.getEmail(), q)
-                        || contains(nd.getSoDienThoai(), q)
-                        || contains(nd.getMaCccd(), q))
+                        || contains(nd.getSoDienThoai(), q))
                 .toList();
     }
 

@@ -28,13 +28,15 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.authenticationProvider(authenticationProvider())
+                .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/Login", "/api/auth/**","/verify-email","/home/**",
-                                "/loai-phong", "/loai-phong/**",
-                                "/phong", "/phong/**",
-                                "/static/**", "/css/**", "/js/**", "/images/**",
-                                "/*.css", "/*.js", "/*.jpg", "/*.png","/Register").permitAll()
-                        .anyRequest().authenticated()
+//                        .requestMatchers("/Login", "/api/auth/**","/verify-email","/home/**",
+//                                "/loai-phong", "/loai-phong/**",
+//                                "/phong", "/phong/**",
+//                                "/static/**", "/css/**", "/js/**", "/images/**",
+//                                "/*.css", "/*.js", "/*.jpg", "/*.png","/Register").permitAll()
+//                        .anyRequest().authenticated()
+                                .anyRequest().permitAll()
                 )
                 .formLogin(form -> form
                         .loginPage("/Login").

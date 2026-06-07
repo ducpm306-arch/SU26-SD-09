@@ -112,6 +112,34 @@
     .rating-input label:hover {
       transform: translateY(-1px);
     }
+    @media (max-width: 900px) {
+      .carousel-section {
+        padding-left: 5% !important;
+        padding-right: 5% !important;
+      }
+    }
+    @media (max-width: 640px) {
+      .detail-header h1 span {
+        display: block;
+        margin-top: 6px;
+      }
+      .detail-description > div {
+        flex-direction: column;
+        gap: 10px !important;
+      }
+      .carousel-section {
+        padding: 42px 16px 32px !important;
+      }
+      .card-footer {
+        align-items: flex-start !important;
+        flex-direction: column;
+        gap: 12px;
+      }
+      .btn-view-detail {
+        text-align: center;
+        width: 100%;
+      }
+    }
   </style>
 </head>
 <body>
@@ -293,6 +321,10 @@
             <option value="3">3</option>
           </select>
         </div>
+        <div class="form-group">
+          <label>CCCD</label>
+          <input type="text" name="maCccd" placeholder="12 so CCCD" required pattern="[0-9]{12}">
+        </div>
 
         <div class="widget-total">
           <span>Giá phòng:</span>
@@ -403,7 +435,7 @@
   }
 
   function getCards() {
-    return track.querySelectorAll('.loai-phòng-card');
+    return track.querySelectorAll('.loai-phong-card');
   }
 
   function initCarousel() {
@@ -505,7 +537,7 @@
     }
   }
 
-  function luuPhòngVaoGio(event, button) {
+  function luuPhongVaoGio(event, button) {
     event.preventDefault();
     const item = {
       id: button.dataset.maPhong,

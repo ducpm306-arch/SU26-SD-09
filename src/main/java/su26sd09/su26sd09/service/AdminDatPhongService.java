@@ -46,6 +46,7 @@ public class AdminDatPhongService {
                 .filter(dp -> contains(String.valueOf(dp.getId()), q)
                         || (dp.getN() != null && contains(dp.getN().getHoTen(), q))
                         || (dp.getN() != null && contains(dp.getN().getEmail(), q))
+                        || contains(dp.getMaCccd(), q)
                         || (dp.getNv() != null && contains(dp.getNv().getHoTen(), q))
                         || contains(dp.getTrangThai(), q)
                         || contains(roomLabel(dp.getId()), q))
@@ -103,6 +104,7 @@ public class AdminDatPhongService {
         datPhong.setNgaytraPhong(ngayTra == null ? null : ngayTra.atStartOfDay());
         datPhong.setSonguoiLon(form.getSonguoiLon());
         datPhong.setSotreEm(form.getSotreEm());
+        datPhong.setMaCccd(normalizeCccd(form.getMaCccd()));
         datPhong.setYeuCauThem(form.getYeuCauThem());
         datPhong.setTrangThai(form.getTrangThai() == null || form.getTrangThai().isBlank()
                 ? "Cho xac nhan"
@@ -126,6 +128,7 @@ public class AdminDatPhongService {
             LocalDate ngayTra,
             int nguoiLon,
             int treEm,
+            String maCccd,
             String yeuCauThem
     ) {
         DatPhong datPhong = new DatPhong();
@@ -134,6 +137,7 @@ public class AdminDatPhongService {
         datPhong.setNgaytraPhong(ngayTra.atStartOfDay());
         datPhong.setSonguoiLon(nguoiLon);
         datPhong.setSotreEm(treEm);
+        datPhong.setMaCccd(normalizeCccd(maCccd));
         datPhong.setYeuCauThem(yeuCauThem);
         datPhong.setTrangThai("Cho xac nhan");
         datPhong.setNgayTao(LocalDateTime.now());
@@ -152,6 +156,7 @@ public class AdminDatPhongService {
             LocalDate ngayTra,
             int nguoiLon,
             int treEm,
+            String maCccd,
             String yeuCauThem,
             String trangThai
     ) {
@@ -161,6 +166,7 @@ public class AdminDatPhongService {
         datPhong.setNgaytraPhong(ngayTra.atStartOfDay());
         datPhong.setSonguoiLon(nguoiLon);
         datPhong.setSotreEm(treEm);
+        datPhong.setMaCccd(normalizeCccd(maCccd));
         datPhong.setYeuCauThem(yeuCauThem);
         datPhong.setTrangThai(trangThai == null || trangThai.isBlank() ? "Cho xac nhan" : trangThai);
         datPhong.setNgayTao(LocalDateTime.now());
@@ -221,5 +227,9 @@ public class AdminDatPhongService {
 
     private boolean contains(String value, String keyword) {
         return value != null && value.toLowerCase(Locale.ROOT).contains(keyword);
+    }
+
+    private String normalizeCccd(String maCccd) {
+        return maCccd == null || maCccd.isBlank() ? null : maCccd.trim();
     }
 }

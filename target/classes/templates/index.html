@@ -51,11 +51,11 @@
        }
        
        /* Carousel styles */
-       .loai-phòng-card:hover {
+       .loai-phong-card:hover {
            transform: translateY(-6px);
            box-shadow: 0 12px 40px rgba(33, 150, 243, 0.15);
        }
-       .loai-phòng-card:hover .card-img-wrap img {
+       .loai-phong-card:hover .card-img-wrap img {
            transform: scale(1.06);
        }
        .carousel-btn:hover {
@@ -206,7 +206,7 @@
     </section>
 
     <!-- CAROUSEL: DANH SACH LOAI PHONG -->
-    <section class="carousel-section" style="padding: 60px 20% 40px; background: var(--white);">
+    <section class="carousel-section" style="padding: 60px 5% 40px; background: var(--white);">
         <div class="section-heading" style="text-align: center; margin-bottom: 40px;">
             <h2 style="font-family: 'Georgia', serif; font-size: 30px; color: var(--text-dark); margin-bottom: 10px;">Các Loại Phòng</h2>
             <span style="display: inline-block; width: 60px; height: 3px; background: var(--sky-primary); border-radius: 2px;"></span>
@@ -268,7 +268,7 @@
 <script>
     // ===== CAROUSEL LOGIC =====
     const track = document.getElementById('carouselTrack');
-    const dotsCóntainer = document.getElementById('carouselDots');
+    const dotsContainer = document.getElementById('carouselDots');
     const prevBtn = document.getElementById('prevBtn');
     const nextBtn = document.getElementById('nextBtn');
 
@@ -282,7 +282,7 @@
     }
 
     function getCards() {
-        return track.querySelectorAll('.loai-phòng-card');
+        return track.querySelectorAll('.loai-phong-card');
     }
 
     function initCarousel() {
@@ -293,12 +293,12 @@
         const totalSlides = Math.max(1, Math.ceil(cards.length / cardsPerView));
 
         // Tao dots
-        dotsCóntainer.innerHTML = '';
+        dotsContainer.innerHTML = '';
         for (let i = 0; i < totalSlides; i++) {
             const dot = document.createElement('div');
             dot.className = 'dot' + (i === 0 ? ' active' : '');
             dot.onclick = () => goToSlide(i);
-            dotsCóntainer.appendChild(dot);
+            dotsContainer.appendChild(dot);
         }
 
         // Dat chieu rong tung card

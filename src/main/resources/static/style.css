@@ -54,6 +54,8 @@ header {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    gap: 18px;
+    flex-wrap: wrap;
     position: sticky;
     top: 0;
     z-index: 1000;
@@ -76,6 +78,9 @@ header {
 .nav-menu {
     display: flex;
     gap: 30px;
+    align-items: center;
+    flex-wrap: wrap;
+    min-width: 0;
 }
 
 .nav-menu a {
@@ -101,6 +106,15 @@ header {
     text-transform: uppercase;
     margin-left: 10px;
     transition: all 0.3s;
+}
+
+.header-actions,
+.user-menu {
+    align-items: center;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: flex-end;
 }
 
 .btn-outline {
@@ -179,12 +193,14 @@ header {
     display: flex;
     gap: 15px;
     border-radius: 4px;
+    flex-wrap: wrap;
 }
 
 .booking-item {
-    flex: 1;
+    flex: 1 1 170px;
     display: flex;
     flex-direction: column;
+    min-width: 0;
 }
 
 .booking-item label {
@@ -490,9 +506,11 @@ footer {
 }
 .detail-main {
     flex: 2;
+    min-width: 0;
 }
 .detail-sidebar {
     flex: 1;
+    min-width: 280px;
     position: sticky;
     top: 100px;
 }
@@ -514,6 +532,7 @@ footer {
     display: flex;
     gap: 15px;
     margin-bottom: 30px;
+    overflow-x: auto;
 }
 .gallery-thumbs img {
     width: calc(25% - 11.25px);
@@ -927,6 +946,7 @@ footer {
 
 .admin-table-wrap {
     overflow-x: auto;
+    max-width: 100%;
 }
 
 .admin-table {
@@ -1084,6 +1104,67 @@ footer {
 }
 
 @media (max-width: 900px) {
+    .topbar {
+        align-items: center;
+        flex-direction: column;
+        gap: 6px;
+        text-align: center;
+    }
+
+    header {
+        align-items: center;
+        justify-content: center;
+    }
+
+    .logo {
+        justify-content: center;
+        width: 100%;
+    }
+
+    .nav-menu {
+        gap: 14px 20px;
+        justify-content: center;
+        width: 100%;
+    }
+
+    .header-actions,
+    .user-menu {
+        justify-content: center;
+        width: 100%;
+    }
+
+    .booking-section {
+        margin-top: -36px;
+    }
+
+    .booking-form,
+    .filter-bar {
+        flex-direction: column;
+    }
+
+    .booking-item,
+    .filter-bar select,
+    .filter-bar input,
+    .btn-book {
+        width: 100%;
+    }
+
+    .detail-wrapper {
+        flex-direction: column;
+        gap: 28px;
+        padding: 36px 5%;
+    }
+
+    .detail-sidebar {
+        min-width: 0;
+        position: static;
+        width: 100%;
+    }
+
+    .gallery-main {
+        height: 360px;
+    }
+
     .admin-grid {
         grid-template-columns: repeat(2, minmax(0, 1fr));
     }
@@ -1098,6 +1179,110 @@ footer {
 }
 
 @media (max-width: 640px) {
+    .topbar {
+        font-size: 12px;
+        padding: 8px 16px;
+    }
+
+    header {
+        padding: 10px 16px;
+    }
+
+    .logo img {
+        max-height: 48px;
+    }
+
+    .nav-menu {
+        gap: 8px 14px;
+    }
+
+    .nav-menu a {
+        font-size: 12px;
+    }
+
+    .header-actions .btn,
+    .btn-logout {
+        font-size: 12px;
+        margin-left: 0;
+        padding: 9px 12px;
+    }
+
+    .hero {
+        height: 62vh;
+    }
+
+    .hero-text {
+        padding: 0 18px;
+    }
+
+    .hero-text h1,
+    .page-banner h1 {
+        font-size: 2rem;
+    }
+
+    .booking-section {
+        margin-top: -28px;
+        padding: 0 16px;
+    }
+
+    .booking-form {
+        padding: 18px;
+    }
+
+    .btn-book {
+        min-height: 46px;
+        padding: 0 20px;
+    }
+
+    .auth-wrapper {
+        padding: 36px 16px;
+    }
+
+    .auth-card,
+    .auth-card.register {
+        padding: 28px 20px;
+    }
+
+    .auth-card h2 {
+        font-size: 26px;
+    }
+
+    .form-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .form-group.full-width {
+        grid-column: auto;
+    }
+
+    .rooms-container {
+        grid-template-columns: 1fr;
+        padding-left: 16px;
+        padding-right: 16px;
+    }
+
+    .room-meta,
+    .widget-total {
+        flex-wrap: wrap;
+    }
+
+    .detail-wrapper {
+        padding: 28px 16px;
+    }
+
+    .gallery-main {
+        height: 260px;
+    }
+
+    .gallery-thumbs img {
+        flex: 0 0 90px;
+        width: 90px;
+    }
+
+    .booking-widget {
+        padding: 22px 18px;
+    }
+
     .admin-header,
     .admin-actions,
     .row-actions,
@@ -1114,5 +1299,13 @@ footer {
 
     .review-card-header {
         flex-direction: column;
+    }
+
+    .admin-wrapper {
+        padding: 28px 16px 48px;
+    }
+
+    .admin-panel {
+        padding: 18px;
     }
 }

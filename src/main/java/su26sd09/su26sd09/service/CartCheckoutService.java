@@ -37,7 +37,7 @@ public class CartCheckoutService {
             int nguoiLon,
             int treEm
     ) {
-        return checkout(khach, roomIds, ngayNhan, ngayTra, nguoiLon, treEm, "Dat tu gio hang");
+        return checkout(khach, roomIds, ngayNhan, ngayTra, nguoiLon, treEm, null, "Dat tu gio hang");
     }
 
     @Transactional
@@ -48,6 +48,20 @@ public class CartCheckoutService {
             LocalDate ngayTra,
             int nguoiLon,
             int treEm,
+            String yeuCauThem
+    ) {
+        return checkout(khach, roomIds, ngayNhan, ngayTra, nguoiLon, treEm, null, yeuCauThem);
+    }
+
+    @Transactional
+    public HoaDon checkout(
+            NguoiDung khach,
+            List<Integer> roomIds,
+            LocalDate ngayNhan,
+            LocalDate ngayTra,
+            int nguoiLon,
+            int treEm,
+            String maCccd,
             String yeuCauThem
     ) {
         Set<Integer> distinctRoomIds = new LinkedHashSet<>(roomIds);
@@ -73,6 +87,7 @@ public class CartCheckoutService {
                 ngayTra,
                 nguoiLon,
                 treEm,
+                maCccd,
                 yeuCauThem,
                 "Cho xac nhan"
         );

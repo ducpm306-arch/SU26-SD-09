@@ -50,7 +50,7 @@
         <h2>Danh Sách Người Dùng</h2>
 
         <form th:action="@{/admin/nguoi-dung}" method="get" class="search-row">
-            <input type="text" name="keyword" placeholder="Tìm theo tên, email, số điện thoại, CCCD, vai trò..." th:value="${keyword}">
+            <input type="text" name="keyword" placeholder="Tìm theo tên, email, số điện thoại, vai trò..." th:value="${keyword}">
             <button type="submit" class="admin-btn outline">Tìm Kiếm</button>
         </form>
 
@@ -62,7 +62,6 @@
                     <th>Họ tên</th>
                     <th>Email</th>
                     <th>Số điện thoại</th>
-                    <th>CCCD</th>
                     <th>Trạng thái</th>
                     <th>Vai tro</th>
                     <th>Ngày tạo</th>
@@ -75,7 +74,6 @@
                     <td><strong th:text="${nd.hoTen}"></strong></td>
                     <td th:text="${nd.email}"></td>
                     <td th:text="${nd.soDienThoai != null ? nd.soDienThoai : ''}"></td>
-                    <td th:text="${nd.maCccd != null ? nd.maCccd : ''}"></td>
                     <td>
                         <select class="admin-inline-input"
                                 name="trangThai"
@@ -107,7 +105,7 @@
                     </td>
                 </tr>
                 <tr th:if="${nguoiDungs.isEmpty()}">
-                    <td colspan="9">
+                    <td colspan="8">
                         <div class="empty-state">Không tìm thấy người dùng phù hợp.</div>
                     </td>
                 </tr>

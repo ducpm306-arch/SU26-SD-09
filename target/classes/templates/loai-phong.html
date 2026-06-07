@@ -137,7 +137,7 @@
         }
 
         /* Loại phòng card */
-        .loai-phòng-card {
+        .loai-phong-card {
             min-width: calc(33.333% - 16px);
             background: var(--white);
             border-radius: 8px;
@@ -148,7 +148,7 @@
             transition: transform 0.3s ease, box-shadow 0.3s ease;
             flex-shrink: 0;
         }
-        .loai-phòng-card:hover {
+        .loai-phong-card:hover {
             transform: translateY(-6px);
             box-shadow: 0 12px 40px rgba(33, 150, 243, 0.15);
         }
@@ -163,7 +163,7 @@
             object-fit: cover;
             transition: transform 0.5s ease;
         }
-        .loai-phòng-card:hover .card-img-wrap img {
+        .loai-phong-card:hover .card-img-wrap img {
             transform: scale(1.06);
         }
         .card-badge {
@@ -390,11 +390,36 @@
 
         /* Responsive */
         @media (max-width: 1024px) {
-            .loai-phòng-card { min-width: calc(50% - 12px); }
+            .carousel-section,
+            .filter-section {
+                padding-left: 5%;
+                padding-right: 5%;
+            }
+            .loai-phong-card { min-width: calc(50% - 12px); }
             .rooms-grid { grid-template-columns: repeat(2, 1fr); }
         }
         @media (max-width: 640px) {
-            .loai-phòng-card { min-width: 85%; }
+            .page-banner {
+                height: 260px;
+            }
+            .filter-form {
+                align-items: stretch;
+                flex-direction: column;
+            }
+            .filter-item,
+            .btn-search {
+                width: 100%;
+            }
+            .card-footer {
+                align-items: flex-start;
+                flex-direction: column;
+                gap: 12px;
+            }
+            .btn-view-detail {
+                text-align: center;
+                width: 100%;
+            }
+            .loai-phong-card { min-width: 85%; }
             .rooms-grid { grid-template-columns: 1fr; }
             .page-banner-content h1 { font-size: 28px; }
         }
@@ -577,7 +602,7 @@
 <script>
     // ===== CAROUSEL LOGIC =====
     const track = document.getElementById('carouselTrack');
-    const dotsCóntainer = document.getElementById('carouselDots');
+    const dotsContainer = document.getElementById('carouselDots');
     const prevBtn = document.getElementById('prevBtn');
     const nextBtn = document.getElementById('nextBtn');
 
@@ -591,7 +616,7 @@
     }
 
     function getCards() {
-        return track.querySelectorAll('.loai-phòng-card');
+        return track.querySelectorAll('.loai-phong-card');
     }
 
     function initCarousel() {
@@ -600,12 +625,12 @@
         const totalSlides = Math.max(1, Math.ceil(cards.length / cardsPerView));
 
         // Tao dots
-        dotsCóntainer.innerHTML = '';
+        dotsContainer.innerHTML = '';
         for (let i = 0; i < totalSlides; i++) {
             const dot = document.createElement('div');
             dot.className = 'dot' + (i === 0 ? ' active' : '');
             dot.onclick = () => goToSlide(i);
-            dotsCóntainer.appendChild(dot);
+            dotsContainer.appendChild(dot);
         }
 
         // Dat chieu rong tung card

@@ -96,6 +96,10 @@
                     <input type="number" th:field="*{sotreEm}" min="0">
                 </div>
                 <div class="admin-field">
+                    <label>CCCD</label>
+                    <input type="text" th:field="*{maCccd}" placeholder="12 so CCCD" pattern="[0-9]{12}">
+                </div>
+                <div class="admin-field">
                     <label>Trang thai</label>
                     <select th:field="*{trangThai}">
                         <option value="Cho xac nhan">Cho xac nhan</option>
@@ -137,6 +141,7 @@
                     <th>Ngay nhan</th>
                     <th>Ngay tra</th>
                     <th>Khach</th>
+                    <th>CCCD</th>
                     <th>Trang thai</th>
                     <th>Thao tac</th>
                 </tr>
@@ -153,6 +158,7 @@
                     <td th:text="${dp.ngaydatPhong != null ? #temporals.format(dp.ngaydatPhong, 'dd/MM/yyyy') : ''}"></td>
                     <td th:text="${dp.ngaytraPhong != null ? #temporals.format(dp.ngaytraPhong, 'dd/MM/yyyy') : ''}"></td>
                     <td th:text="${dp.songuoiLon + ' NL, ' + dp.sotreEm + ' TE'}"></td>
+                    <td th:text="${dp.maCccd != null ? dp.maCccd : ''}"></td>
                     <td>
                         <span th:classappend="${dp.trangThai == 'Da xac nhan' or dp.trangThai == 'Da nhan phong' or dp.trangThai == 'Da tra phong'} ? 'active' : (${dp.trangThai == 'Da huy'} ? 'inactive' : 'warning')"
                               class="status-badge"
@@ -173,7 +179,7 @@
                     </td>
                 </tr>
                 <tr th:if="${datPhongs.isEmpty()}">
-                    <td colspan="9"><div class="empty-state">Khong tim thay don dat phong phu hop.</div></td>
+                    <td colspan="10"><div class="empty-state">Khong tim thay don dat phong phu hop.</div></td>
                 </tr>
                 </tbody>
             </table>

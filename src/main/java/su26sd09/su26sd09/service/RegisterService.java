@@ -63,7 +63,6 @@ public class RegisterService {
         nguoiDung.setMatKhau_hash(passwordEncoder.encode(registerDto.getMat_khau_hash()));
         nguoiDung.setSoDienThoai(registerDto.getSo_dien_thoai());
         nguoiDung.setTrangThai(false);
-        nguoiDung.setMaCccd(registerDto.getMa_cccd());
         nguoiDung.setDiaChi(registerDto.getDia_chi());
         nguoiDung.setVaiTro(VaiTro);
         nguoiDungRepository.save(nguoiDung);

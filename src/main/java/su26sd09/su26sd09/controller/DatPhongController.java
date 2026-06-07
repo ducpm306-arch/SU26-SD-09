@@ -37,6 +37,7 @@ public class DatPhongController {
             @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate ngayTra,
             @RequestParam(name = "nguoiLon", defaultValue = "1") int nguoiLon,
             @RequestParam(name = "treEm", defaultValue = "0") int treEm,
+            @RequestParam(name = "maCccd", defaultValue = "") String maCccd,
             @RequestParam(name = "yeuCauThem", defaultValue = "") String yeuCauThem,
             Authentication authentication,
             RedirectAttributes redirectAttributes
@@ -58,6 +59,11 @@ public class DatPhongController {
             return "redirect:/phong/" + maPhong;
         }
 
+        if (!isValidCccd(maCccd)) {
+            redirectAttributes.addFlashAttribute("error", "Vui long nhap so CCCD gom 12 chu so");
+            return "redirect:/phong/" + maPhong;
+        }
+
         Phong phong = phongService.findById(maPhong);
         if (phong == null || !"Trong".equals(phong.getTrangThai())) {
             redirectAttributes.addFlashAttribute("error", "Phòng không khả dụng");
@@ -65,8 +71,11 @@ public class DatPhongController {
         }
 
         NguoiDung khach = nguoiDungRepository.findByEmail(authentication.getName());
-        cartCheckoutService.checkout(khach, List.of(phong.getMaPhong()), ngayNhan, ngayTra, nguoiLon, treEm, yeuCauThem);
+        cartCheckoutService.checkout(khach, List.of(phong.getMaPhong()), ngayNhan, ngayTra, nguoiLon, treEm, maCccd, yeuCauThem);
         redirectAttributes.addFlashAttribute("success", "Đặt phòng thành công, vui lòng chờ nhân viên xác nhận");
         return "redirect:/profiles";
+    }
+    private boolean isValidCccd(String maCccd) {
+        return maCccd != null && maCccd.matches("\\d{12}");
     }
 }

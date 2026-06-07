@@ -49,6 +49,9 @@ public class DatPhong {
     @Column(name = "yeu_cau_them")
     public String yeuCauThem;
 
+    @Column(name = "ma_cccd", length = 20)
+    public String maCccd;
+
     @Column(name = "trang_thai")
     public String trangThai;
 

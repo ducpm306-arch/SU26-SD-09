@@ -38,6 +38,7 @@ public class GioHangController {
             @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate ngayTra,
             @RequestParam(name = "nguoiLon", defaultValue = "1") int nguoiLon,
             @RequestParam(name = "treEm", defaultValue = "0") int treEm,
+            @RequestParam(name = "maCccd", defaultValue = "") String maCccd,
             Authentication authentication,
             RedirectAttributes redirectAttributes
     ) {
@@ -53,14 +54,22 @@ public class GioHangController {
             return "redirect:/gio-hang";
         }
 
+        if (!isValidCccd(maCccd)) {
+            redirectAttributes.addFlashAttribute("error", "Vui long nhap so CCCD gom 12 chu so");
+            return "redirect:/gio-hang";
+        }
+
         NguoiDung khach = nguoiDungRepository.findByEmail(authentication.getName());
         try {
-            cartCheckoutService.checkout(khach, roomIds, ngayNhan, ngayTra, nguoiLon, treEm);
+            cartCheckoutService.checkout(khach, roomIds, ngayNhan, ngayTra, nguoiLon, treEm, maCccd, "Dat tu gio hang");
             redirectAttributes.addFlashAttribute("success", "Đã tạo đơn đặt phòng và hóa đơn tạm tính từ giỏ hàng");
             return "redirect:/profiles";
         } catch (IllegalArgumentException ex) {
             redirectAttributes.addFlashAttribute("error", ex.getMessage());
             return "redirect:/gio-hang";
         }
+    }
+    private boolean isValidCccd(String maCccd) {
+        return maCccd != null && maCccd.matches("\\d{12}");
     }
 }
